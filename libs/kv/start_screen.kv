@@ -1,0 +1,168 @@
+#:import environ os.environ
+#:import Home libs.home.Home
+#:import NotifyDialogDev libs.dialog_change_theme.NotifyDialogDev
+#:import Toolbar libs.toolbar.Toolbar
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+
+<Toolbar>
+    md_bg_color: app.theme_cls.primary_color
+    background_palette: "Primary"
+    background_hue: "500"
+    elevation: 10
+    right_action_items: [["file-code" if self.theme_cls.device_orientation == "landscape" else "dots-vertical", lambda x: app.show_code()]]
+    left_action_items: [["arrow-left", lambda x: app.back_to_home_screen()]]
+
+
+MDBoxLayout:
+
+    ScreenManager:
+        id: screen_manager
+        transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
+
+        Home:
+            id: home
+            name: "home"
+
+            MDBackdrop:
+                id: backdrop
+                title: "Notify"
+                header_text: "Home"
+                left_action_items: [["menu", lambda x: self.open()]]
+                on_open: home.opening_animation_backdrop_components_menu(backdrop, backlayer)
+                on_close: home.closing_animation_backdrop_components_menu(backdrop, backlayer)
+
+                MDBackdropBackLayer:
+
+                    NotifyBackdropBackLayer:
+                        id: backlayer
+
+                MDBackdropFrontLayer:
+                    id: front_layer
+
+                    NotifyBackdropFrontLayer:
+                        id: backdrop_front_layer
+            MDBackdrop:
+                id: backdrop
+                title: "Notify"
+                header_text: "Home"
+                right_action_items: [["cogs", lambda x: self.open()]]
+                on_open: home.opening_animation_backdrop_components_settings(backdrop, backlayer)
+                on_close: home.closing_animation_backdrop_components_settings(backdrop, backlayer)
+
+                MDBackdropBackLayer:
+
+                    NotifyBackdropBackLayer:
+                        id: backlayer
+
+                MDBackdropFrontLayer:
+                    id: front_layer
+
+                    NotifyBackdropFrontLayer:
+                        id: backdrop_front_layer
+
+
+<NotifyBackdropFrontLayer@RecycleView>
+    key_viewclass: "viewclass"
+    key_size: "height"
+
+    RecycleBoxLayout:
+        default_size: None, dp(48)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: "vertical"
+
+
+<NotifyBackdropBackLayer@FloatLayout>
+    scale_x: 0
+    scale_y: 0
+
+    Image:
+        opacity: .2
+        source: f"{environ['NOTIFY_ASSETS']}kivymd.png"
+        pos_hint: {"center_y": .55}
+        canvas.before:
+            PushMatrix
+            Scale:
+                origin: self.center
+                x: root.scale_x
+                y: root.scale_y
+        canvas.after:
+            PopMatrix
+
+
+    ScrollView:
+
+        MDGridLayout:
+            adaptive_height: True
+            cols: 1
+            padding: "20dp"
+            spacing: "10dp"
+
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                padding: "5dp"
+                spacing: "10dp"
+
+                MDLabel:
+                    text: "Change Style"
+                    bold: True
+                    theme_text_color: "Primary"
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    size_hint: None, None
+                    adaptive_size: True
+                    spacing: "48dp"
+
+					Label:
+                        text: "Light"
+                        color: app.theme_cls.text_color
+
+                    NotifyThemeStyleSwitch:
+
+                    Label:
+                        text: "Dark"
+                        color: app.theme_cls.text_color
+
+            MDSeparator:
+
+            MDLabel:
+                id: label_theme
+                text: "Current theme: {}".format(app.theme_cls.primary_palette)
+                bold: True
+                theme_text_color: "Primary"
+                adaptive_height: True
+
+            NotifyOneLineIconListItem:
+                text: "Change Theme"
+                icon: "palette-outline"
+                divider: None
+                on_release: app.show_dialog_change_theme()
+
+            MDSeparator:
+
+            MDLabel:
+                id: label_theme
+                text: "About Us"
+                bold: True
+                theme_text_color: "Primary"
+                adaptive_height: True
+
+            NotifyOneLineIconListItem:
+                text: "Developers"
+                icon: "dev-to"
+                divider: None
+                on_release: NotifyDialogDev().open()
+
+            Widget:
+                size_hint_y: None
+                height: app.theme_cls.standard_increment
+
+<NotifyThemeStyleSwitch@MDSwitch>
+    group: "style"
+    size_hint: None, None
+    size: "48dp", "48dp"
+    on_state: app.switch_theme_style(self.active)
