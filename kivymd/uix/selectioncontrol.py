@@ -512,18 +512,14 @@ class MDSwitch(ThemableBehavior, ButtonBehavior, FloatLayout):
     def _set_colors(self, *args):
         self._track_color_normal = self.theme_cls.disabled_hint_text_color
         if self.theme_cls.theme_style == "Dark":
-            self._track_color_active = self.theme_cls.primary_color
+            self._track_color_active = get_color_from_hex(colors["Gray"]["400"])
             self._track_color_active[3] = 0.5
             self._track_color_disabled = get_color_from_hex("FFFFFF")
             self._track_color_disabled[3] = 0.1
             self.thumb_color = get_color_from_hex(colors["Gray"]["400"])
-            self.thumb_color_down = get_color_from_hex(
-                colors[self.theme_cls.primary_palette]["200"]
-            )
+            self.thumb_color_down = get_color_from_hex(colors[self.theme_cls.primary_palette]["200"])
         else:
-            self._track_color_active = get_color_from_hex(
-                colors[self.theme_cls.primary_palette]["200"]
-            )
+            self._track_color_active = get_color_from_hex(colors[self.theme_cls.primary_palette]["200"])
             self._track_color_active[3] = 0.5
             self._track_color_disabled = self.theme_cls.disabled_hint_text_color
             self.thumb_color_down = self.theme_cls.primary_color
