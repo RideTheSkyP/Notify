@@ -2,14 +2,11 @@ import ast
 import os
 import sys
 from pathlib import Path
-
 from kivy.core.window import Window
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
-from libs.dialog_change_theme import (NotifyDialogChangeTheme, NotifyUsageCode,)
-from libs.list_items import (NotifyOneLineLeftIconItem,)
-
+from libs.dialog_change_theme import NotifyDialogChangeTheme
 from kivymd import images_path
 from kivymd.app import MDApp
 
@@ -25,7 +22,7 @@ os.environ["NOTIFY_ASSETS"] = os.path.join(os.environ["NOTIFY_ROOT"], f"assets{o
 Window.softinput_mode = "below_target"
 
 
-class NotifierApp(MDApp):
+class NotifyApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.theme_cls.primary_palette = "Teal"
@@ -45,22 +42,22 @@ class NotifierApp(MDApp):
         self.dialog_change_theme.open()
 
     def on_start(self):
-        """Creates a list of items with examples on start screen."""
+        self.fps_monitor_start()
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv",)
 
-        with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
-            self.data_screens = ast.literal_eval(read_file.read())
-            data_screens = list(self.data_screens.keys())
-            data_screens.sort()
-        for name_item_example in data_screens:
-            self.root.ids.backdrop_front_layer.data.append(
-                {
-                    "viewclass": "NotifyOneLineLeftIconItem",
-                    "text": name_item_example,
-                    "icon": self.data_screens[name_item_example]["icon"],
-                    "on_release": lambda x=name_item_example: self.set_example_screen(x),
-                }
-            )
+        # with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
+        #     self.data_screens = ast.literal_eval(read_file.read())
+        #     data_screens = list(self.data_screens.keys())
+        #     data_screens.sort()
+        # for name_item_example in data_screens:
+        #     self.root.ids.backdrop_front_layer.data.append(
+        #         {
+        #             "viewclass": "NotifyOneLineLeftIconItem",
+        #             "text": name_item_example,
+        #             "icon": self.data_screens[name_item_example]["icon"],
+        #             "on_release": lambda x=name_item_example: self.set_example_screen(x),
+        #         }
+        #     )
 
     def set_example_screen(self, name_screen):
         manager = self.root.ids.screen_manager
@@ -86,16 +83,6 @@ class NotifierApp(MDApp):
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
-        self.root.ids.backdrop.ids._front_layer.md_bg_color = [0, 0, 0, 0]
-
-    def show_code(self):
-        if self.theme_cls.device_orientation == "landscape":
-            code = NotifyUsageCode(
-                code=self.sample_code,
-                title=self.screen_name,
-                website=self.website,
-            )
-            code.open()
 
 
-NotifierApp().run()
+NotifyApp().run()

@@ -25,42 +25,23 @@ MDBoxLayout:
             name: "home"
 
             MDBackdrop:
-                id: backdrop
+                id: backdropSettings
                 title: "Notify"
-                header_text: "Home"
-                left_action_items: [["menu", lambda x: self.open()]]
-                on_open: home.opening_animation_backdrop_components_menu(backdrop, backlayer)
-                on_close: home.closing_animation_backdrop_components_menu(backdrop, backlayer)
-
-                MDBackdropBackLayer:
-
-                    NotifyBackdropBackLayer:
-                        id: backlayer
-
-                MDBackdropFrontLayer:
-                    id: front_layer
-
-                    NotifyBackdropFrontLayer:
-                        id: backdrop_front_layer
-            MDBackdrop:
-                id: backdrop
-                title: "Notify"
-                header_text: "Home"
+                header: False
+                header_text: "Menu"
                 right_action_items: [["cogs", lambda x: self.open()]]
-                on_open: home.opening_animation_backdrop_components_settings(backdrop, backlayer)
-                on_close: home.closing_animation_backdrop_components_settings(backdrop, backlayer)
-
+                on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+                on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
                 MDBackdropBackLayer:
 
-                    NotifyBackdropBackLayer:
-                        id: backlayer
+                    NotifyBackdropBackLayerSettings:
+                        id: backlayerSettings
 
                 MDBackdropFrontLayer:
                     id: front_layer
 
                     NotifyBackdropFrontLayer:
                         id: backdrop_front_layer
-
 
 <NotifyBackdropFrontLayer@RecycleView>
     key_viewclass: "viewclass"
@@ -74,9 +55,10 @@ MDBoxLayout:
         orientation: "vertical"
 
 
-<NotifyBackdropBackLayer@FloatLayout>
+<NotifyBackdropBackLayerSettings@FloatLayout>
     scale_x: 0
     scale_y: 0
+    icon:"menu"
 
     Image:
         opacity: .2
@@ -97,14 +79,14 @@ MDBoxLayout:
         MDGridLayout:
             adaptive_height: True
             cols: 1
-            padding: "20dp"
+            padding: "24dp"
             spacing: "10dp"
 
             MDBoxLayout:
                 orientation: "vertical"
                 adaptive_height: True
                 padding: "5dp"
-                spacing: "10dp"
+                spacing: "5dp"
 
                 MDLabel:
                     text: "Change Style"
@@ -115,16 +97,18 @@ MDBoxLayout:
                     orientation: "horizontal"
                     size_hint: None, None
                     adaptive_size: True
-                    spacing: "48dp"
+                    spacing: "40dp"
 
 					Label:
                         text: "Light"
+                        orientation: "horizontal"
                         color: app.theme_cls.text_color
 
                     NotifyThemeStyleSwitch:
 
                     Label:
                         text: "Dark"
+                        orientation: "horizontal"
                         color: app.theme_cls.text_color
 
             MDSeparator:

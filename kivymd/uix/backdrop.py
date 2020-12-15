@@ -137,8 +137,7 @@ from kivymd.theming import ThemableBehavior
 from kivymd.uix.card import MDCard
 from kivymd.uix.toolbar import MDToolbar
 
-Builder.load_string(
-    """
+Builder.load_string("""
 <MDBackdrop>
 
     canvas:
@@ -200,8 +199,7 @@ Builder.load_string(
         BoxLayout:
             id: front_layer
             padding: 0, 0, 0, "10dp"
-"""
-)
+""")
 
 
 class MDBackdrop(ThemableBehavior, FloatLayout):
@@ -302,9 +300,7 @@ class MDBackdrop(ThemableBehavior, FloatLayout):
         super().__init__(**kwargs)
         self.register_event_type("on_open")
         self.register_event_type("on_close")
-        # Clock.schedule_once(
-        #     lambda x: self.on_left_action_items(self, self.left_action_items)
-        # )
+        self.on_action_items()
 
     def on_open(self):
         """When the front layer drops."""
@@ -312,12 +308,9 @@ class MDBackdrop(ThemableBehavior, FloatLayout):
     def on_close(self):
         """When the front layer rises."""
 
-    def on_left_action_items(self, instance, value):
-        if value:
-            self.left_action_items = [value[0]]
-        else:
-            self.left_action_items = [["menu", lambda x: self.open()]]
-        self._open_icon = self.left_action_items[0][0]
+    def on_action_items(self):
+        self.right_action_items = [["cogs", lambda x: self.open()]]
+        self._open_icon = self.right_action_items[0][0]
 
     def on_header(self, instance, value):
         if not value:
@@ -331,23 +324,20 @@ class MDBackdrop(ThemableBehavior, FloatLayout):
             the height to which the front screen will be lowered;
             if equal to zero - falls to the bottom of the screen;
         """
-
-        # self.animtion_icon_menu()
+        self.animtion_icon_menu()
         if self._front_layer_open:
             self.close()
             return
 
         if open_up_to:
-            if open_up_to < (
-                self.ids.header_button.height - self.ids._front_layer.height
-            ):
-                y = self.ids.header_button.height - self.ids._front_layer.height
+            if open_up_to < (self.ids.header_button.height - self.ids._front_layer.height):
+                y = - self.ids._front_layer.height
             elif open_up_to > 0:
                 y = 0
             else:
                 y = open_up_to
         else:
-            y = self.ids.header_button.height - self.ids._front_layer.height
+            y = - self.ids._front_layer.height
 
         Animation(y=y, d=0.2, t="out_quad").start(self.ids._front_layer)
         self._front_layer_open = True
@@ -355,23 +345,18 @@ class MDBackdrop(ThemableBehavior, FloatLayout):
 
     def close(self):
         """Opens the front layer."""
-
         Animation(y=0, d=0.2, t="out_quad").start(self.ids._front_layer)
         self._front_layer_open = False
         self.dispatch("on_close")
 
     def animtion_icon_menu(self):
-        icon_menu = self.ids.toolbar.ids.left_actions.children[0]
+        icon_menu = self.ids.toolbar.ids.right_actions.children[0]
         anim = Animation(opacity=0, d=0.2, t="out_quad")
         anim.bind(on_complete=self.animtion_icon_close)
         anim.start(icon_menu)
 
     def animtion_icon_close(self, instance_animation, instance_icon_menu):
-        instance_icon_menu.icon = (
-            self.close_icon
-            if instance_icon_menu.icon == self._open_icon
-            else self._open_icon
-        )
+        instance_icon_menu.icon = self.close_icon if instance_icon_menu.icon == self._open_icon else self._open_icon
         Animation(opacity=1, d=0.2).start(instance_icon_menu)
 
     def add_widget(self, widget, index=0, canvas=None):

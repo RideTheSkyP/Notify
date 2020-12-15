@@ -52,45 +52,6 @@
                     secondary_text: ""
                     text: ""
 
-
-<NotifyDialogLicense>
-    size_hint: None, None
-    height: Window.height * 90 / 100
-    width: Window.width * 90 / 100
-
-    BoxLayout:
-        orientation: "vertical"
-        spacing: "10dp"
-        padding: 0, 0, 0, "10dp"
-
-        MDLabel:
-            text: "KivyMD"
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: self.theme_cls.primary_color
-            font_style: "H4"
-            bold: True
-            size_hint_y: None
-            height: self.texture_size[1]
-
-        MDSeparator:
-
-        ScrollView:
-            bar_width: 0
-
-            MDGridLayout:
-                cols: 1
-                adaptive_height: True
-                padding: "10dp"
-
-                MDLabel:
-                    id: text_label
-                    markup: True
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    font_style: "Caption"
-
-
 <NotifyDialogChangeTheme>
     size_hint: None, None
     height: Window.height * 80 / 100
