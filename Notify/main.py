@@ -8,7 +8,7 @@ from kivy.lang import Builder
 from kivy.loader import Loader
 from libs.dialog_change_theme import NotifyDialogChangeTheme
 # from kivymd.uix.selectioncontrol import
-from libs.list_items import NotifyOneLineLeftIconItem
+from libs.list_items import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
 from kivymd.uix.backdrop import MDBackdrop
 from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
@@ -52,14 +52,14 @@ class NotifyApp(MDApp):
     def on_start(self):
         self.fps_monitor_start()
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv",)
-        # print(self.root.ids.nav_drawer)
+        print(self.root.ids)
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
             self.data_screens = ast.literal_eval(read_file.read())
             data_screens = list(self.data_screens.keys())
             data_screens.sort()
-        # for name_item_example in data_screens:
-        #     self.root.ids.nav_drawer.add_widget(NotifyOneLineLeftIconItem(text="name_item_example", icon=self.data_screens[name_item_example]["icon"]))
+        for name_item_example in data_screens:
+            self.root.ids.mdlist.add_widget(NotifyOneLineIconListItem(text=name_item_example, icon=self.data_screens[name_item_example]["icon"]))
             #     {
             #         "viewclass": "NotifyOneLineLeftIconItem",
             #         "text": name_item_example,

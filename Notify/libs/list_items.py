@@ -1,7 +1,8 @@
 from kivy.properties import ListProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
-from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, TwoLineAvatarListItem
+from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, \
+    TwoLineAvatarListItem, IconLeftWidget
 from kivymd.uix.selectioncontrol import MDCheckbox
 
 

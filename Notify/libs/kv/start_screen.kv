@@ -44,19 +44,18 @@ MDNavigationLayout:
 
 	MDNavigationDrawer:
 		id: nav_drawer
+
+        MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            adaptive_width: True
+            padding: "5dp"
+            spacing: "5dp"
+
 		ScrollView:
+			MDList:
+				id: mdlist
 
-	        MDBoxLayout:
-	            orientation: "vertical"
-	            adaptive_height: True
-	            padding: "5dp"
-	            spacing: "5dp"
-
-				NotifyOneLineIconListItem:
-					text: "Change Theme"
-					icon: "palette-outline"
-					divider: None
-					on_release: app.show_dialog_change_theme()
 
 
 <ContentNavigationDrawer@BoxLayout>
