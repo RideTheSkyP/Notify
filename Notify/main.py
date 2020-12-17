@@ -6,13 +6,17 @@ from kivy.core.window import Window
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
-from libs.dialog_change_theme import NotifyDialogChangeTheme, NotifyUsageCode
+from libs.dialog_change_theme import NotifyDialogChangeTheme
 # from kivymd.uix.selectioncontrol import
 from libs.list_items import NotifyOneLineLeftIconItem
 from kivymd.uix.backdrop import MDBackdrop
+from kivymd.uix.navigationdrawer import MDNavigationDrawer
+from kivymd.uix.backdrop import MDBackdropFrontLayer
 
 from kivymd import images_path
 from kivymd.app import MDApp
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDIconButton
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
 
@@ -48,20 +52,21 @@ class NotifyApp(MDApp):
     def on_start(self):
         self.fps_monitor_start()
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv",)
+        # print(self.root.ids.nav_drawer)
 
-        # with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
-        #     self.data_screens = ast.literal_eval(read_file.read())
-        #     data_screens = list(self.data_screens.keys())
-        #     data_screens.sort()
+        with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
+            self.data_screens = ast.literal_eval(read_file.read())
+            data_screens = list(self.data_screens.keys())
+            data_screens.sort()
         # for name_item_example in data_screens:
-        #     self.root.ids.backdrop_front_layer.data.append(
-        #         {
-        #             "viewclass": "NotifyOneLineLeftIconItem",
-        #             "text": name_item_example,
-        #             "icon": self.data_screens[name_item_example]["icon"],
-        #             "on_release": lambda x=name_item_example: self.set_example_screen(x),
-        #         }
-        #     )
+        #     self.root.ids.nav_drawer.add_widget(NotifyOneLineLeftIconItem(text="name_item_example", icon=self.data_screens[name_item_example]["icon"]))
+            #     {
+            #         "viewclass": "NotifyOneLineLeftIconItem",
+            #         "text": name_item_example,
+            #         "icon": self.data_screens[name_item_example]["icon"],
+            #         "on_release": lambda x=name_item_example: self.set_example_screen(x),
+            #     }
+            # )
 
     def set_example_screen(self, name_screen):
         manager = self.root.ids.screen_manager

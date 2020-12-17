@@ -1,4 +1,5 @@
 from kivy.properties import ListProperty, StringProperty
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, TwoLineAvatarListItem
 from kivymd.uix.selectioncontrol import MDCheckbox
@@ -35,4 +36,8 @@ class LeftWidget(ILeftBody, Widget):
 
 
 class IconRightSampleWidget(IRightBodyTouch, MDCheckbox):
+    pass
+
+
+class ContentNavigationDrawer(BoxLayout):
     pass

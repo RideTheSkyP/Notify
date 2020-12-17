@@ -13,12 +13,6 @@ class NotifyDialogDev(NotifyBaseDialog):
     pass
 
 
-class NotifyUsageCode(NotifyBaseDialog):
-    code = StringProperty()
-    title = StringProperty()
-    website = StringProperty()
-
-
 class NotifyDialogChangeTheme(NotifyBaseDialog):
     def set_list_colors_themes(self):
         for name_theme in palette:

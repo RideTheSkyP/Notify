@@ -4,7 +4,6 @@
 #:import Toolbar libs.toolbar.Toolbar
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
 
-
 <Toolbar>
     md_bg_color: app.theme_cls.primary_color
     background_palette: "Primary"
@@ -13,8 +12,7 @@
     right_action_items: [["file-code" if self.theme_cls.device_orientation == "landscape" else "dots-vertical", lambda x: app.show_code()]]
     left_action_items: [["arrow-left", lambda x: app.back_to_home_screen()]]
 
-
-MDBoxLayout:
+MDNavigationLayout:
 
     ScreenManager:
         id: screen_manager
@@ -30,6 +28,7 @@ MDBoxLayout:
                 header: False
                 header_text: "Menu"
                 right_action_items: [["cogs", lambda x: self.open()]]
+                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
                 on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
                 on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
                 MDBackdropBackLayer:
@@ -42,6 +41,28 @@ MDBoxLayout:
 
                     NotifyBackdropFrontLayer:
                         id: backdrop_front_layer
+
+	MDNavigationDrawer:
+		id: nav_drawer
+		ScrollView:
+
+	        MDBoxLayout:
+	            orientation: "vertical"
+	            adaptive_height: True
+	            padding: "5dp"
+	            spacing: "5dp"
+
+				NotifyOneLineIconListItem:
+					text: "Change Theme"
+					icon: "palette-outline"
+					divider: None
+					on_release: app.show_dialog_change_theme()
+
+
+<ContentNavigationDrawer@BoxLayout>
+	id: navigationDrawer
+
+
 
 <NotifyBackdropFrontLayer@RecycleView>
     key_viewclass: "viewclass"
@@ -58,7 +79,6 @@ MDBoxLayout:
 <NotifyBackdropBackLayerSettings@FloatLayout>
     scale_x: 0
     scale_y: 0
-    icon:"menu"
 
     Image:
         opacity: .2
@@ -72,7 +92,6 @@ MDBoxLayout:
                 y: root.scale_y
         canvas.after:
             PopMatrix
-
 
     ScrollView:
 
@@ -145,9 +164,9 @@ MDBoxLayout:
                 size_hint_y: None
                 height: app.theme_cls.standard_increment
 
+
 <NotifyThemeStyleSwitch@MDSwitch>
     group: "style"
     size_hint: None, None
     size: "48dp", "48dp"
-    selected_color: 1, 0, 1, 1
     on_state: app.switch_theme_style(self.active)
