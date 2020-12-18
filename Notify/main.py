@@ -17,6 +17,8 @@ from kivymd import images_path
 from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDIconButton
+from kivymd.uix.toolbar import MDBottomAppBar
+from kivymd.uix.bottomnavigation import MDBottomNavigation
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
 
@@ -52,24 +54,22 @@ class NotifyApp(MDApp):
     def on_start(self):
         self.fps_monitor_start()
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv",)
-        print(self.root.ids)
+        print(self.root.ids.contentDrawer.ids)
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
             self.data_screens = ast.literal_eval(read_file.read())
             data_screens = list(self.data_screens.keys())
             data_screens.sort()
         for name_item_example in data_screens:
-            self.root.ids.mdlist.add_widget(NotifyOneLineIconListItem(text=name_item_example, icon=self.data_screens[name_item_example]["icon"]))
-            #     {
-            #         "viewclass": "NotifyOneLineLeftIconItem",
-            #         "text": name_item_example,
-            #         "icon": self.data_screens[name_item_example]["icon"],
-            #         "on_release": lambda x=name_item_example: self.set_example_screen(x),
-            #     }
-            # )
+            self.root.ids.contentDrawer.ids.drawerList.add_widget(NotifyOneLineIconListItem(
+                text=name_item_example,
+                icon=self.data_screens[name_item_example]["icon"],
+                # on_release=self.set_example_screen(name_item_example)
+            ))
 
     def set_example_screen(self, name_screen):
         manager = self.root.ids.screen_manager
+
         if not manager.has_screen(self.data_screens[name_screen]["name_screen"]):
             name_kv_file = self.data_screens[name_screen]["kv_string"]
             Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/{name_kv_file}.kv",)
@@ -80,11 +80,6 @@ class NotifyApp(MDApp):
             if "toolbar" in screen_object.ids:
                 screen_object.ids.toolbar.title = name_screen
             manager.add_widget(screen_object)
-        code_file = f"{os.environ['NOTIFY_ROOT']}/assets/usage/{self.data_screens[name_screen]['source_code']}"
-        with open(code_file, "r") as f:
-            self.sample_code = f.read()
-            self.screen_name = name_screen
-            self.website = self.data_screens[name_screen]["more_info"]
         manager.current = self.data_screens[name_screen]["name_screen"]
 
     def back_to_home_screen(self):

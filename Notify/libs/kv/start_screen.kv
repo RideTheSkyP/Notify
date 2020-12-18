@@ -1,65 +1,120 @@
 #:import environ os.environ
 #:import Home libs.home.Home
 #:import NotifyDialogDev libs.dialog_change_theme.NotifyDialogDev
+#:import NotifyOneLineLeftIconItem libs.list_items.NotifyOneLineLeftIconItem
 #:import Toolbar libs.toolbar.Toolbar
+#:import ContentNavigationDrawer libs.navigationDrawer.ContentNavigationDrawer
+#:import ItemDrawer libs.navigationDrawer.ItemDrawer
+#:import DrawerList libs.navigationDrawer.DrawerList
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
 
+
 <Toolbar>
-    md_bg_color: app.theme_cls.primary_color
-    background_palette: "Primary"
-    background_hue: "500"
-    elevation: 10
-    right_action_items: [["file-code" if self.theme_cls.device_orientation == "landscape" else "dots-vertical", lambda x: app.show_code()]]
-    left_action_items: [["arrow-left", lambda x: app.back_to_home_screen()]]
-
-MDNavigationLayout:
-
-    ScreenManager:
-        id: screen_manager
-        transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
-
-        Home:
-            id: home
-            name: "home"
-
-            MDBackdrop:
-                id: backdropSettings
-                title: "Notify"
-                header: False
-                header_text: "Menu"
-                right_action_items: [["cogs", lambda x: self.open()]]
-                left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
-                on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-                on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-                MDBackdropBackLayer:
-
-                    NotifyBackdropBackLayerSettings:
-                        id: backlayerSettings
-
-                MDBackdropFrontLayer:
-                    id: front_layer
-
-                    NotifyBackdropFrontLayer:
-                        id: backdrop_front_layer
-
-	MDNavigationDrawer:
-		id: nav_drawer
-
-        MDBoxLayout:
-            orientation: "vertical"
-            adaptive_height: True
-            adaptive_width: True
-            padding: "5dp"
-            spacing: "5dp"
-
-		ScrollView:
-			MDList:
-				id: mdlist
+	md_bg_color: app.theme_cls.primary_color
+	background_palette: "Primary"
+	background_hue: "500"
+	elevation: 10
+	right_action_items: [["file-code" if self.theme_cls.device_orientation == "landscape" else "dots-vertical", lambda x: app.show_code()]]
+	left_action_items: [["arrow-left", lambda x: app.back_to_home_screen()]]
 
 
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
 
-<ContentNavigationDrawer@BoxLayout>
-	id: navigationDrawer
+    AnchorLayout:
+        anchor_x: "left"
+        size_hint_y: None
+        height: avatar.height
+
+        Image:
+            id: avatar
+            size_hint: None, None
+            size: "56dp", "56dp"
+            source: "data/logo/kivy-icon-256.png"
+
+    MDLabel:
+        text: "KivyMD library"
+        font_style: "Button"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDLabel:
+        text: "kivydevelopment@gmail.com"
+        font_style: "Caption"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    ScrollView:
+        DrawerList:
+            id: drawerList
+
+
+<ItemDrawer>:
+    theme_text_color: "Custom"
+    on_release: self.parent.set_color_item(self)
+
+    IconLeftWidget:
+        id: icon
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: root.text_color
+
+
+Screen:
+	MDNavigationLayout:
+		ScreenManager:
+			id: screen_manager
+			transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
+
+			Home:
+				id: home
+				name: "home"
+
+				BoxLayout:
+					orientation: "vertical"
+
+					MDBackdrop:
+						id: backdropSettings
+						title: "Notify"
+						header: False
+						header_text: "Menu"
+						right_action_items: [["cogs", lambda x: self.open()]]
+						left_action_items: [["menu", lambda x: navigationDrawer.set_state("open")]]
+						on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+						on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+
+						MDBackdropBackLayer:
+							NotifyBackdropBackLayerSettings:
+								id: backlayerSettings
+
+						MDBackdropFrontLayer:
+							id: front_layer
+
+							NotifyBackdropFrontLayer:
+								id: backdrop_front_layer
+
+					Widget:
+
+					MDBottomNavigation:
+						panel_color: .2, .2, .2, 1
+
+						MDBottomNavigationItem:
+							name: 'screen 1'
+			                text: 'Python'
+			                icon: 'language-python'
+			                MDLabel:
+			                    text: 'Python'
+			                    halign: 'center'
+
+		MDNavigationDrawer:
+            id: navigationDrawer
+
+            ContentNavigationDrawer:
+                id: contentDrawer
+
+
 
 
 
