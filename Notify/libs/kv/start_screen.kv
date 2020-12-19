@@ -2,10 +2,14 @@
 #:import Home libs.home.Home
 #:import NotifyDialogDev libs.dialog_change_theme.NotifyDialogDev
 #:import NotifyOneLineLeftIconItem libs.list_items.NotifyOneLineLeftIconItem
+#:import NotifyThemeStyleSwitch libs.list_items.NotifyThemeStyleSwitch
 #:import Toolbar libs.toolbar.Toolbar
 #:import ContentNavigationDrawer libs.navigationDrawer.ContentNavigationDrawer
 #:import ItemDrawer libs.navigationDrawer.ItemDrawer
 #:import DrawerList libs.navigationDrawer.DrawerList
+#:import NotifyBackdropLayer libs.backdropLayers.NotifyBackdropLayer
+#:import NotifyBackdropFrontLayer libs.backdropLayers.NotifyBackdropFrontLayer
+#:import NotifyBackdropBackLayerSettings libs.backdropLayers.NotifyBackdropBackLayerSettings
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
 
 
@@ -62,6 +66,34 @@
         text_color: root.text_color
 
 
+<NotifyBackdropLayer>:
+	id: backdropSettings
+	title: "Notify"
+	header: False
+	header_text: "Menu"
+	right_action_items: [["cogs", lambda x: self.open()]]
+	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")]]
+	on_open: app.root.ids.home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_close: app.root.ids.home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+
+	MDBackdropBackLayer:
+		NotifyBackdropBackLayerSettings:
+			id: backlayerSettings
+
+	MDBackdropFrontLayer:
+		id: front_layer
+
+		NotifyBackdropFrontLayer:
+			id: backdrop_front_layer
+
+
+<NotifyThemeStyleSwitch>:
+    group: "style"
+    size_hint: None, None
+    size: "48dp", "48dp"
+    on_state: app.switch_theme_style(self.active)
+
+
 Screen:
 	MDNavigationLayout:
 		ScreenManager:
@@ -84,25 +116,7 @@ Screen:
 #                        on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 #						on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 
-				MDBackdrop:
-					id: backdropSettings
-					title: "Notify"
-					header: False
-					header_text: "Menu"
-					right_action_items: [["cogs", lambda x: self.open()]]
-					left_action_items: [["menu", lambda x: navigationDrawer.set_state("open")]]
-					on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-					on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-
-					MDBackdropBackLayer:
-						NotifyBackdropBackLayerSettings:
-							id: backlayerSettings
-
-					MDBackdropFrontLayer:
-						id: front_layer
-
-						NotifyBackdropFrontLayer:
-							id: backdrop_front_layer
+				NotifyBackdropLayer:
 
 				Widget:
 
@@ -119,7 +133,6 @@ Screen:
 				MDBottomNavigation:
 					id: bottomNavigation
 					size_hint_y: None
-					height: dp(56)
 					panel_color: .2, .2, .2, 1
 
 					MDBottomNavigationItem:
@@ -137,10 +150,7 @@ Screen:
                 id: contentDrawer
 
 
-
-
-
-<NotifyBackdropFrontLayer@RecycleView>
+<NotifyBackdropFrontLayer>:
     key_viewclass: "viewclass"
     key_size: "height"
 
@@ -152,7 +162,7 @@ Screen:
         orientation: "vertical"
 
 
-<NotifyBackdropBackLayerSettings@FloatLayout>
+<NotifyBackdropBackLayerSettings>:
     scale_x: 0
     scale_y: 0
 
@@ -239,10 +249,3 @@ Screen:
             Widget:
                 size_hint_y: None
                 height: app.theme_cls.standard_increment
-
-
-<NotifyThemeStyleSwitch@MDSwitch>
-    group: "style"
-    size_hint: None, None
-    size: "48dp", "48dp"
-    on_state: app.switch_theme_style(self.active)

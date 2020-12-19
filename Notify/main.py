@@ -12,7 +12,6 @@ from libs.list_items import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
 from kivymd.uix.backdrop import MDBackdrop
 from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
-
 from kivymd import images_path
 from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel

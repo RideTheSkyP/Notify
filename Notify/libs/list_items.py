@@ -3,7 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, \
     TwoLineAvatarListItem, IconLeftWidget
-from kivymd.uix.selectioncontrol import MDCheckbox
+from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch
 
 
 class NotifyOneLineLeftAvatarItem(OneLineAvatarListItem):
@@ -41,4 +41,8 @@ class IconRightSampleWidget(IRightBodyTouch, MDCheckbox):
 
 
 class ContentNavigationDrawer(BoxLayout):
+    pass
+
+
+class NotifyThemeStyleSwitch(MDSwitch):
     pass
