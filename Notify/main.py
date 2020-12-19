@@ -19,6 +19,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
+from kivymd.uix.boxlayout import BoxLayout
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
 

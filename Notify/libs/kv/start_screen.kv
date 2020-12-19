@@ -72,41 +72,63 @@ Screen:
 				id: home
 				name: "home"
 
-				BoxLayout:
-					orientation: "vertical"
+#				MDBoxLayout:
+#					orientation: "vertical"
+#					adaptive_height: True
 
-					MDBackdrop:
-						id: backdropSettings
-						title: "Notify"
-						header: False
-						header_text: "Menu"
-						right_action_items: [["cogs", lambda x: self.open()]]
-						left_action_items: [["menu", lambda x: navigationDrawer.set_state("open")]]
-						on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-						on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+#					MDToolbar:
+#                        title: "Navigation Drawer"
+#                        elevation: 10
+#                        left_action_items: [['menu', lambda x: navigationDrawer.set_state("open")]]
+#                        right_action_items: [["cogs", lambda x: self.open()]]
+#                        on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+#						on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 
-						MDBackdropBackLayer:
-							NotifyBackdropBackLayerSettings:
-								id: backlayerSettings
+				MDBackdrop:
+					id: backdropSettings
+					title: "Notify"
+					header: False
+					header_text: "Menu"
+					right_action_items: [["cogs", lambda x: self.open()]]
+					left_action_items: [["menu", lambda x: navigationDrawer.set_state("open")]]
+					on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+					on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 
-						MDBackdropFrontLayer:
-							id: front_layer
+					MDBackdropBackLayer:
+						NotifyBackdropBackLayerSettings:
+							id: backlayerSettings
 
-							NotifyBackdropFrontLayer:
-								id: backdrop_front_layer
+					MDBackdropFrontLayer:
+						id: front_layer
 
-					Widget:
+						NotifyBackdropFrontLayer:
+							id: backdrop_front_layer
 
-					MDBottomNavigation:
-						panel_color: .2, .2, .2, 1
+				Widget:
 
-						MDBottomNavigationItem:
-							name: 'screen 1'
-			                text: 'Python'
-			                icon: 'language-python'
-			                MDLabel:
-			                    text: 'Python'
-			                    halign: 'center'
+#			    MDBottomNavigationBar:
+#					id: bottom_panel
+#					size_hint_y: None
+#					height: dp(56)
+#					md_bg_color: app.theme_cls.primary_color
+#					BoxLayout:
+#						id: tab_bar
+#						pos_hint: {'center_x': .5, 'center_y': .5}
+#						height: dp(56)
+#						size_hint: None, None
+				MDBottomNavigation:
+					id: bottomNavigation
+					size_hint_y: None
+					height: dp(56)
+					panel_color: .2, .2, .2, 1
+
+					MDBottomNavigationItem:
+						name: 'screen 1'
+		                text: 'Python'
+		                icon: 'language-python'
+		                MDLabel:
+		                    text: 'Python'
+		                    halign: 'center'
 
 		MDNavigationDrawer:
             id: navigationDrawer
