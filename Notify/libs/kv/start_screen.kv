@@ -90,8 +90,22 @@
 <NotifyThemeStyleSwitch>:
     group: "style"
     size_hint: None, None
+    theme_thumb_color: "Custom"
+    theme_thumb_down_color: "Custom"
     size: "48dp", "48dp"
     on_state: app.switch_theme_style(self.active)
+
+
+<NotifyBackdropFrontLayer>:
+    key_viewclass: "viewclass"
+    key_size: "height"
+
+    RecycleBoxLayout:
+        default_size: None, dp(48)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: "vertical"
 
 
 Screen:
@@ -148,18 +162,6 @@ Screen:
 
             ContentNavigationDrawer:
                 id: contentDrawer
-
-
-<NotifyBackdropFrontLayer>:
-    key_viewclass: "viewclass"
-    key_size: "height"
-
-    RecycleBoxLayout:
-        default_size: None, dp(48)
-        default_size_hint: 1, None
-        size_hint_y: None
-        height: self.minimum_height
-        orientation: "vertical"
 
 
 <NotifyBackdropBackLayerSettings>:

@@ -7,7 +7,7 @@ from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
 from libs.dialog_change_theme import NotifyDialogChangeTheme
-# from kivymd.uix.selectioncontrol import
+from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from libs.list_items import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
 from kivymd.uix.backdrop import MDBackdrop
 from kivymd.uix.navigationdrawer import MDNavigationDrawer

@@ -331,7 +331,7 @@ class MDBackdrop(ThemableBehavior, FloatLayout):
 
         if open_up_to:
             if open_up_to < (self.ids.header_button.height - self.ids._front_layer.height):
-                y = - self.ids._front_layer.height
+                y = open_up_to - self.ids._front_layer.height
             elif open_up_to > 0:
                 y = 0
             else:

@@ -526,8 +526,13 @@ class MDNavigationDrawer(MDCard):
         _scrim_alpha = 0
         if self.type == "modal":
             _scrim_alpha = self._scrim_alpha_transition(self.open_progress)
-        if isinstance(self.parent, MDNavigationLayout) and self.parent._scrim_color:
-            self.parent._scrim_color.rgba = self.scrim_color[:3] + [self.scrim_color[3] * _scrim_alpha]
+        if (
+            isinstance(self.parent, MDNavigationLayout)
+            and self.parent._scrim_color
+        ):
+            self.parent._scrim_color.rgba = self.scrim_color[:3] + [
+                self.scrim_color[3] * _scrim_alpha
+            ]
         return _scrim_alpha
 
     _scrim_alpha = AliasProperty(
@@ -670,7 +675,9 @@ class MDNavigationDrawer(MDCard):
             for child in self.children[:]:
                 if child.dispatch("on_touch_down", touch):
                     return True
-        if self.type == "standard" and not self.collide_point(touch.ox, touch.oy):
+        if self.type == "standard" and not self.collide_point(
+            touch.ox, touch.oy
+        ):
             return False
         return True
 
@@ -687,7 +694,14 @@ class MDNavigationDrawer(MDCard):
 
         if self.status in ("opening_with_swipe", "closing_with_swipe"):
             self.open_progress = max(
-                min(self.open_progress + (touch.dx if self.anchor == "left" else -touch.dx) / self.width, 1,), 0,)
+                min(
+                    self.open_progress
+                    + (touch.dx if self.anchor == "left" else -touch.dx)
+                    / self.width,
+                    1,
+                ),
+                0,
+            )
             return True
         return super().on_touch_move(touch)
 
@@ -703,9 +717,13 @@ class MDNavigationDrawer(MDCard):
             else:
                 self.set_state("open", animation=True)
         elif self.status == "opened":
-            if self.close_on_click and not self.collide_point(touch.ox, touch.oy):
+            if self.close_on_click and not self.collide_point(
+                touch.ox, touch.oy
+            ):
                 self.set_state("close", animation=True)
-            elif self.type == "standard" and not self.collide_point(touch.ox, touch.oy):
+            elif self.type == "standard" and not self.collide_point(
+                touch.ox, touch.oy
+            ):
                 return False
         elif self.status == "closed":
             return False
