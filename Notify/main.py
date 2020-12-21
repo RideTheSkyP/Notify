@@ -14,11 +14,15 @@ from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
 from kivymd import images_path
 from kivymd.app import MDApp
+from kivymd.uix.picker import MDDatePicker, MDTimePicker
+from libs.navigationDrawer import ItemDrawer, DrawerList
+from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
 from kivymd.uix.boxlayout import BoxLayout
+import calendar
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
 
@@ -43,6 +47,7 @@ class NotifyApp(MDApp):
 
     def build(self):
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/list_items.kv")
+        # MDDatePicker(callback=self.getSelectedDate)
         return Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/start_screen.kv")
 
     def show_dialog_change_theme(self):
@@ -53,7 +58,7 @@ class NotifyApp(MDApp):
 
     def on_start(self):
         self.fps_monitor_start()
-        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv",)
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv", )
         print(self.root.ids.contentDrawer.ids)
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
@@ -61,7 +66,7 @@ class NotifyApp(MDApp):
             data_screens = list(self.data_screens.keys())
             data_screens.sort()
         for name_item_example in data_screens:
-            self.root.ids.contentDrawer.ids.drawerList.add_widget(NotifyOneLineIconListItem(
+            self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
                 text=name_item_example,
                 icon=self.data_screens[name_item_example]["icon"],
                 # on_release=self.set_example_screen(name_item_example)
@@ -72,7 +77,7 @@ class NotifyApp(MDApp):
 
         if not manager.has_screen(self.data_screens[name_screen]["name_screen"]):
             name_kv_file = self.data_screens[name_screen]["kv_string"]
-            Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/{name_kv_file}.kv",)
+            Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/{name_kv_file}.kv", )
             if "Import" in self.data_screens[name_screen]:
                 exec(self.data_screens[name_screen]["Import"])
             screen_object = eval(self.data_screens[name_screen]["Factory"])
@@ -87,6 +92,18 @@ class NotifyApp(MDApp):
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
+        # self.theme_cls.text_color = "Gray" if state else "Light"
+
+    # def show_time_picker(self):
+    #     time_dialog = MDTimePicker()
+    #     time_dialog.open()
+
+    # def getSelectedDate(self, date):
+    #     print(date)
+    #
+    # def datePicker(self):
+    #     calendarWidget = MDDatePicker(callback=self.getSelectedDate)
+    #     calendarWidget.open()
 
 
 NotifyApp().run()

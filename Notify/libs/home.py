@@ -1,8 +1,19 @@
 from kivy.animation import Animation
 from kivy.uix.screenmanager import Screen
+from kivymd.uix.picker import MDDatePicker
 
 
 class Home(Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.createCalendar()
+
+    def createCalendar(self):
+        self.add_widget(MDDatePicker(callback=self.getSelectedDate))
+
+    def getSelectedDate(self, date):
+        print(date)
+
     def closing_animation_backdrop_components_settings(self, instance_backdrop, instance_backlayer):
         Animation(scale_x=0, scale_y=0, d=0.2).start(instance_backlayer)
         anim = Animation(opacity=0, d=0.2)
@@ -34,3 +45,4 @@ class Home(Screen):
     def set_instance_backdrop_title_menu(self, instance_animation, instance_backdrop):
         instance_backdrop.text = ("Notify" if instance_backdrop.text == "Themes" else "Themes")
         Animation(opacity=1, d=0.2).start(instance_backdrop)
+

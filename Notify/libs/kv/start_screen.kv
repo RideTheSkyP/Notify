@@ -11,6 +11,8 @@
 #:import NotifyBackdropFrontLayer libs.backdropLayers.NotifyBackdropFrontLayer
 #:import NotifyBackdropBackLayerSettings libs.backdropLayers.NotifyBackdropBackLayerSettings
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import StiffScrollEffect kivymd.stiffscroll.StiffScrollEffect
+#:import NotifyBottomNavigation libs.bottomNavigation.NotifyBottomNavigation
 
 
 <Toolbar>
@@ -51,19 +53,21 @@
         height: self.texture_size[1]
 
     ScrollView:
+#        effect_cls: StiffScrollEffect
         DrawerList:
             id: drawerList
 
 
 <ItemDrawer>:
     theme_text_color: "Custom"
+#    text_color: app.theme_cls.primary_color
     on_release: self.parent.set_color_item(self)
 
     IconLeftWidget:
         id: icon
         icon: root.icon
         theme_text_color: "Custom"
-        text_color: root.text_color
+        text_color: app.theme_cls.primary_color
 
 
 <NotifyBackdropLayer>:
@@ -100,15 +104,46 @@
     key_viewclass: "viewclass"
     key_size: "height"
 
-    RecycleBoxLayout:
-        default_size: None, dp(48)
-        default_size_hint: 1, None
-        size_hint_y: None
-        height: self.minimum_height
-        orientation: "vertical"
+#    RecycleBoxLayout:
+#        default_size: None, dp(48)
+#        default_size_hint: 1, None
+#        size_hint_y: None
+#        height: self.minimum_height
+#        orientation: "vertical"
+#	backdrop: None
+#    text: "Lower the front layer"
+#    secondary_text: "by 50 %"
+#    icon: "transfer-down"
+#    on_press: root.backdrop.open(-Window.height / 2)
+#    pos_hint: {"top": 1}
+#    _no_ripple_effect: True
+
+
+<NotifyBottomNavigation>:
+	size_hint_y: None
+	panel_color: .2, .2, .2, 1
+
+	MDBottomNavigationItem:
+		name: "screen 1"
+		text: "Python"
+		icon: "language-python"
+
+
+	MDBottomNavigationItem:
+		name: "screen 2"
+		text: "C++"
+		icon: "language-cpp"
+		MDLabel:
+			text: "C++"
+			halign: "center"
 
 
 Screen:
+	NotifyBackdropLayer:
+
+	NotifyBottomNavigation:
+		id: bottomNavigation
+
 	MDNavigationLayout:
 		ScreenManager:
 			id: screen_manager
@@ -117,45 +152,6 @@ Screen:
 			Home:
 				id: home
 				name: "home"
-
-#				MDBoxLayout:
-#					orientation: "vertical"
-#					adaptive_height: True
-
-#					MDToolbar:
-#                        title: "Navigation Drawer"
-#                        elevation: 10
-#                        left_action_items: [['menu', lambda x: navigationDrawer.set_state("open")]]
-#                        right_action_items: [["cogs", lambda x: self.open()]]
-#                        on_open: home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-#						on_close: home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-
-				NotifyBackdropLayer:
-
-				Widget:
-
-#			    MDBottomNavigationBar:
-#					id: bottom_panel
-#					size_hint_y: None
-#					height: dp(56)
-#					md_bg_color: app.theme_cls.primary_color
-#					BoxLayout:
-#						id: tab_bar
-#						pos_hint: {'center_x': .5, 'center_y': .5}
-#						height: dp(56)
-#						size_hint: None, None
-				MDBottomNavigation:
-					id: bottomNavigation
-					size_hint_y: None
-					panel_color: .2, .2, .2, 1
-
-					MDBottomNavigationItem:
-						name: 'screen 1'
-		                text: 'Python'
-		                icon: 'language-python'
-		                MDLabel:
-		                    text: 'Python'
-		                    halign: 'center'
 
 		MDNavigationDrawer:
             id: navigationDrawer
@@ -182,6 +178,7 @@ Screen:
             PopMatrix
 
     ScrollView:
+		effect_cls: StiffScrollEffect
 
         MDGridLayout:
             adaptive_height: True
