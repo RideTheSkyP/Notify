@@ -6,6 +6,7 @@ from kivy.core.window import Window
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
+from kivy.properties import ObjectProperty
 from libs.dialog_change_theme import NotifyDialogChangeTheme
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from libs.list_items import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
@@ -14,7 +15,8 @@ from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
 from kivymd import images_path
 from kivymd.app import MDApp
-from kivymd.uix.picker import MDDatePicker, MDTimePicker
+# from kivymd.uix.picker import MDDatePicker, MDTimePicker
+# from test import MDDatePicker
 from libs.navigationDrawer import ItemDrawer, DrawerList
 from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
@@ -22,7 +24,9 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
 from kivymd.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
 import calendar
+
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
 
@@ -32,6 +36,7 @@ else:
     sys.path.append(os.path.abspath(__file__).split("demos")[0])
     os.environ["NOTIFY_ROOT"] = str(Path(__file__).parent)
     # os.environ["NOTIFY_ROOT"] = os.path.dirname(os.path.abspath(__file__))
+
 os.environ["NOTIFY_ASSETS"] = os.path.join(os.environ["NOTIFY_ROOT"], f"assets{os.sep}")
 Window.softinput_mode = "below_target"
 
@@ -57,9 +62,11 @@ class NotifyApp(MDApp):
         self.dialog_change_theme.open()
 
     def on_start(self):
-        self.fps_monitor_start()
+        # self.fps_monitor_start()
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv", )
-        print(self.root.ids.contentDrawer.ids)
+        # self.root.ids.home.height = self.root.ids.home.height - self.root.ids.bottomNavigation.height
+        print(self.root)
+        # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
             self.data_screens = ast.literal_eval(read_file.read())
@@ -98,8 +105,8 @@ class NotifyApp(MDApp):
     #     time_dialog = MDTimePicker()
     #     time_dialog.open()
 
-    # def getSelectedDate(self, date):
-    #     print(date)
+    def getSelectedDate(self, date):
+        print(date)
     #
     # def datePicker(self):
     #     calendarWidget = MDDatePicker(callback=self.getSelectedDate)

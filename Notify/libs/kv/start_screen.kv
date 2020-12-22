@@ -77,8 +77,8 @@
 	header_text: "Menu"
 	right_action_items: [["cogs", lambda x: self.open()]]
 	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")]]
-	on_open: app.root.ids.home.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-	on_close: app.root.ids.home.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_open: app.root.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_close: app.root.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 
 	MDBackdropBackLayer:
 		NotifyBackdropBackLayerSettings:
@@ -104,12 +104,12 @@
     key_viewclass: "viewclass"
     key_size: "height"
 
-#    RecycleBoxLayout:
-#        default_size: None, dp(48)
-#        default_size_hint: 1, None
-#        size_hint_y: None
-#        height: self.minimum_height
-#        orientation: "vertical"
+    RecycleBoxLayout:
+        default_size: None, dp(48)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: "vertical"
 #	backdrop: None
 #    text: "Lower the front layer"
 #    secondary_text: "by 50 %"
@@ -138,7 +138,16 @@
 			halign: "center"
 
 
-Screen:
+#<Home>:
+#	MDIconButton:
+#		text: "Text"
+#		icon: "android"
+
+
+Home:
+	id: home
+	name: "home"
+
 	NotifyBackdropLayer:
 
 	NotifyBottomNavigation:
@@ -149,9 +158,25 @@ Screen:
 			id: screen_manager
 			transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
 
-			Home:
-				id: home
-				name: "home"
+			Screen:
+                name: "scr 0"
+                MDLabel:
+                    text: "Screen 0"
+                    halign: "center"
+
+            Screen:
+                name: "scr 1"
+                MDLabel:
+                    text: "Screen 1"
+                    halign: "center"
+            Screen:
+                name: "scr 2"
+                MDLabel:
+                    text: "Screen 2"
+                    halign: "center"
+#				md_bg_color: app.theme_cls.primary_color
+#				adaptive_size: True
+#				height: self.height
 
 		MDNavigationDrawer:
             id: navigationDrawer
