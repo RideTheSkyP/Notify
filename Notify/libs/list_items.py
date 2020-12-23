@@ -11,6 +11,7 @@ class NotifyOneLineLeftAvatarItem(OneLineAvatarListItem):
     source = StringProperty()
 
 
+
 class NotifyTwoLineLeftAvatarItem(TwoLineAvatarListItem):
     icon = StringProperty()
     secondary_font_style = "Caption"

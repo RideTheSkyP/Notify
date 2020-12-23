@@ -2,7 +2,6 @@ import ast
 import os
 import sys
 from pathlib import Path
-from kivy.core.window import Window
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
@@ -63,9 +62,16 @@ class NotifyApp(MDApp):
 
     def on_start(self):
         # self.fps_monitor_start()
-        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv", )
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv")
         # self.root.ids.home.height = self.root.ids.home.height - self.root.ids.bottomNavigation.height
-        print(self.root)
+        print(self.root.ids.home)
+        self.root.ids.backdropLayer.ids.frontLayerItems.data.append({
+                    "viewclass": "MDLabel",
+                    "text": "Home",
+                    # "icon": "android",
+                    # "on_release": lambda x=name_item_example: self.set_example_screen(x),
+                })
+        print(self.root.ids.backdropLayer.ids.frontLayerItems.data)
         # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
@@ -105,8 +111,8 @@ class NotifyApp(MDApp):
     #     time_dialog = MDTimePicker()
     #     time_dialog.open()
 
-    def getSelectedDate(self, date):
-        print(date)
+    # def getSelectedDate(self, date):
+    #     print(date)
     #
     # def datePicker(self):
     #     calendarWidget = MDDatePicker(callback=self.getSelectedDate)

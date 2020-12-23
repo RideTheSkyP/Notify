@@ -1,22 +1,22 @@
-<NotifyOneLineIconListItem>
+#:import ItemDrawer libs.navigationDrawer.ItemDrawer
 
+
+<NotifyOneLineIconListItem>:
     IconLeftWidget:
         icon: root.icon
 
 
-<NotifyOneLineLeftIconItem>
-
+<NotifyOneLineLeftIconItem>:
     IconLeftWidget:
         icon: root.icon
 
 
-<NotifyTwoLineLeftIconItem>
-
+<NotifyTwoLineLeftIconItem>:
     IconLeftWidget:
         icon: root.icon
 
 
-<NotifyTwoLineLeftAvatarItem>
+<NotifyTwoLineLeftAvatarItem>:
     secondary_theme_text_color: "Custom"
     secondary_text_color: app.theme_cls.primary_color
 
@@ -24,13 +24,12 @@
         source: root.icon
 
 
-<NotifyOneLineLeftAvatarItem>
-
+<NotifyOneLineLeftAvatarItem>:
     ImageLeftWidget:
         source: root.source
 
 
-<NotifyOneLineLeftWidgetItem>
+<NotifyOneLineLeftWidgetItem>:
     on_release: app.theme_cls.primary_palette = root.text
 
     LeftWidget:
@@ -41,7 +40,18 @@
                 pos: self.pos
                 size: self.size
 
-<NotifyMDSwitch>
 
+<NotifyMDSwitch>:
     MDSwitch:
         source: root.source
+
+
+<ItemDrawer>:
+    theme_text_color: "Custom"
+    on_release: self.parent.set_color_item(self)
+
+    IconLeftWidget:
+        id: icon
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: app.theme_cls.primary_color

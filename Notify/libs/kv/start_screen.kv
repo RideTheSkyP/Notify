@@ -15,7 +15,7 @@
 #:import NotifyBottomNavigation libs.bottomNavigation.NotifyBottomNavigation
 
 
-<Toolbar>
+<Toolbar>:
 	md_bg_color: app.theme_cls.primary_color
 	background_palette: "Primary"
 	background_hue: "500"
@@ -58,18 +58,6 @@
             id: drawerList
 
 
-<ItemDrawer>:
-    theme_text_color: "Custom"
-#    text_color: app.theme_cls.primary_color
-    on_release: self.parent.set_color_item(self)
-
-    IconLeftWidget:
-        id: icon
-        icon: root.icon
-        theme_text_color: "Custom"
-        text_color: app.theme_cls.primary_color
-
-
 <NotifyBackdropLayer>:
 	id: backdropSettings
 	title: "Notify"
@@ -77,112 +65,18 @@
 	header_text: "Menu"
 	right_action_items: [["cogs", lambda x: self.open()]]
 	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")]]
-	on_open: app.root.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-	on_close: app.root.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_open: self.parent.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_close: self.parent.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 
 	MDBackdropBackLayer:
 		NotifyBackdropBackLayerSettings:
 			id: backlayerSettings
 
 	MDBackdropFrontLayer:
-		id: front_layer
+		id: backdropFrontLayer
 
 		NotifyBackdropFrontLayer:
-			id: backdrop_front_layer
-
-
-<NotifyThemeStyleSwitch>:
-    group: "style"
-    size_hint: None, None
-    theme_thumb_color: "Custom"
-    theme_thumb_down_color: "Custom"
-    size: "48dp", "48dp"
-    on_state: app.switch_theme_style(self.active)
-
-
-<NotifyBackdropFrontLayer>:
-    key_viewclass: "viewclass"
-    key_size: "height"
-
-    RecycleBoxLayout:
-        default_size: None, dp(48)
-        default_size_hint: 1, None
-        size_hint_y: None
-        height: self.minimum_height
-        orientation: "vertical"
-#	backdrop: None
-#    text: "Lower the front layer"
-#    secondary_text: "by 50 %"
-#    icon: "transfer-down"
-#    on_press: root.backdrop.open(-Window.height / 2)
-#    pos_hint: {"top": 1}
-#    _no_ripple_effect: True
-
-
-<NotifyBottomNavigation>:
-	size_hint_y: None
-	panel_color: .2, .2, .2, 1
-
-	MDBottomNavigationItem:
-		name: "screen 1"
-		text: "Python"
-		icon: "language-python"
-
-
-	MDBottomNavigationItem:
-		name: "screen 2"
-		text: "C++"
-		icon: "language-cpp"
-		MDLabel:
-			text: "C++"
-			halign: "center"
-
-
-#<Home>:
-#	MDIconButton:
-#		text: "Text"
-#		icon: "android"
-
-
-Home:
-	id: home
-	name: "home"
-
-	NotifyBackdropLayer:
-
-	NotifyBottomNavigation:
-		id: bottomNavigation
-
-	MDNavigationLayout:
-		ScreenManager:
-			id: screen_manager
-			transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
-
-			Screen:
-                name: "scr 0"
-                MDLabel:
-                    text: "Screen 0"
-                    halign: "center"
-
-            Screen:
-                name: "scr 1"
-                MDLabel:
-                    text: "Screen 1"
-                    halign: "center"
-            Screen:
-                name: "scr 2"
-                MDLabel:
-                    text: "Screen 2"
-                    halign: "center"
-#				md_bg_color: app.theme_cls.primary_color
-#				adaptive_size: True
-#				height: self.height
-
-		MDNavigationDrawer:
-            id: navigationDrawer
-
-            ContentNavigationDrawer:
-                id: contentDrawer
+			id: frontLayerItems
 
 
 <NotifyBackdropBackLayerSettings>:
@@ -273,3 +167,85 @@ Home:
             Widget:
                 size_hint_y: None
                 height: app.theme_cls.standard_increment
+
+
+<NotifyThemeStyleSwitch>:
+    group: "style"
+    size_hint: None, None
+    theme_thumb_color: "Custom"
+    theme_thumb_down_color: "Custom"
+    size: "48dp", "48dp"
+    on_state: app.switch_theme_style(self.active)
+
+
+<NotifyBackdropFrontLayer>:
+    key_viewclass: "viewclass"
+    key_size: "height"
+
+    RecycleBoxLayout:
+        default_size: None, dp(48)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: "vertical"
+
+
+<NotifyBottomNavigation>:
+	size_hint_y: None
+	panel_color: .2, .2, .2, 1
+
+	MDBottomNavigationItem:
+		name: "scr 1"
+		text: "Python"
+		icon: "language-python"
+		on_enter: app.back_to_home_screen()
+
+	MDBottomNavigationItem:
+		name: "scr 2"
+		text: "C++"
+		icon: "language-cpp"
+		MDLabel:
+			text: "C++"
+			halign: "center"
+
+
+#	NotifyBottomNavigation:
+#		id: bottomNavigation
+
+
+MDNavigationLayout:
+	ScreenManager:
+		id: screenManager
+		transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
+
+		Home:
+			id: home
+			name: "home"
+
+			NotifyBackdropLayer:
+				id: backdropLayer
+
+		Screen:
+            name: "scr 0"
+
+            MDLabel:
+                text: "Screen 0"
+                halign: "center"
+
+        Screen:
+            name: "scr 1"
+            MDLabel:
+                text: "Screen 1"
+                halign: "center"
+
+        Screen:
+            name: "scr 2"
+            MDLabel:
+                text: "Screen 2"
+                halign: "center"
+
+	MDNavigationDrawer:
+        id: navigationDrawer
+
+        ContentNavigationDrawer:
+            id: contentDrawer
