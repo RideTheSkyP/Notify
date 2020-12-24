@@ -18,7 +18,7 @@ class NotifyBackdropFrontLayer(Screen):
 		# self.createHomeScreen()
 
 	def createHomeScreen(self):
-		self.add_widget(MDLabel(text="KekW"))
+		self.add_widget(MDLabel(text="Home"))
 
 
 class NotifyBackdropBackLayerSettings(FloatLayout):

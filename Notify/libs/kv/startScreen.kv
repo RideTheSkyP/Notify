@@ -1,0 +1,34 @@
+#:import environ os.environ
+#:import Home libs.home.Home
+#:import NotifyDialogDev libs.dialog_change_theme.NotifyDialogDev
+#:import NotifyOneLineLeftIconItem libs.listItems.NotifyOneLineLeftIconItem
+#:import ContentNavigationDrawer libs.navigationDrawer.ContentNavigationDrawer
+#:import ItemDrawer libs.navigationDrawer.ItemDrawer
+#:import DrawerList libs.navigationDrawer.DrawerList
+#:import NotifyBackdropLayer libs.backdropLayers.NotifyBackdropLayer
+#:import NotifyBackdropFrontLayer libs.backdropLayers.NotifyBackdropFrontLayer
+#:import NotifyBackdropBackLayerSettings libs.backdropLayers.NotifyBackdropBackLayerSettings
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import StiffScrollEffect kivymd.stiffscroll.StiffScrollEffect
+#:import NotifyBottomNavigation libs.bottomNavigation.NotifyBottomNavigation
+
+
+MDNavigationLayout:
+	ScreenManager:
+		id: screenManager
+		transition: FadeTransition(duration=.2, clearcolor=app.theme_cls.bg_dark)
+
+		Home:
+			id: home
+			name: "home"
+
+			NotifyBackdropLayer:
+				id: backdropLayer
+
+	MDNavigationDrawer:
+        id: navigationDrawer
+
+        ContentNavigationDrawer:
+            id: contentDrawer
+            navigationDrawer: navigationDrawer
+            screenManager: screenManager

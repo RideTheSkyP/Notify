@@ -8,14 +8,14 @@ from kivy.loader import Loader
 from kivy.properties import ObjectProperty
 from libs.dialog_change_theme import NotifyDialogChangeTheme
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
-from libs.list_items import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
+from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
 from kivymd.uix.backdrop import MDBackdrop
 from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd import images_path
 from kivymd.app import MDApp
 # from kivymd.uix.picker import MDDatePicker, MDTimePicker
-# from test import MDDatePicker
 from libs.navigationDrawer import ItemDrawer, DrawerList
 from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
@@ -24,7 +24,6 @@ from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
 from kivymd.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
-import calendar
 
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
@@ -32,7 +31,7 @@ os.environ["KIVY_PROFILE_LANG"] = "1"
 if getattr(sys, "frozen", False):  # bundle mode with PyInstaller
     os.environ["NOTIFY_ROOT"] = sys._MEIPASS
 else:
-    sys.path.append(os.path.abspath(__file__).split("demos")[0])
+    sys.path.append(os.path.abspath(__file__).split("Project")[0])
     os.environ["NOTIFY_ROOT"] = str(Path(__file__).parent)
     # os.environ["NOTIFY_ROOT"] = os.path.dirname(os.path.abspath(__file__))
 
@@ -50,11 +49,12 @@ class NotifyApp(MDApp):
         Loader.loading_image = f"{images_path}transparent.png"
 
     def build(self):
-        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/list_items.kv")
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/listItems.kv")
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/backdropLayers.kv")
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/navigationDrawer.kv")
-        # MDDatePicker(callback=self.getSelectedDate)
-        return Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/start_screen.kv")
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv")
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/toolbar.kv")
+        return Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/startScreen.kv")
 
     def show_dialog_change_theme(self):
         if not self.dialog_change_theme:
@@ -64,8 +64,7 @@ class NotifyApp(MDApp):
 
     def on_start(self):
         # self.fps_monitor_start()
-        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv")
-        print(self.root.ids)
+        print(f"{self.root.ids}\n")
         # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
@@ -76,11 +75,12 @@ class NotifyApp(MDApp):
             self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
                 text=name_item_example,
                 icon=self.data_screens[name_item_example]["icon"],
-                # on_release=self.set_example_screen(name_item_example)
             ))
+            self.set_example_screen(name_item_example)
+            print(name_item_example)
 
     def set_example_screen(self, name_screen):
-        manager = self.root.ids.screen_manager
+        manager = self.root.ids.screenManager
 
         if not manager.has_screen(self.data_screens[name_screen]["name_screen"]):
             name_kv_file = self.data_screens[name_screen]["kv_string"]
@@ -89,10 +89,12 @@ class NotifyApp(MDApp):
                 exec(self.data_screens[name_screen]["Import"])
             screen_object = eval(self.data_screens[name_screen]["Factory"])
             self.data_screens[name_screen]["object"] = screen_object
+            print(screen_object.ids)
             if "toolbar" in screen_object.ids:
                 screen_object.ids.toolbar.title = name_screen
             manager.add_widget(screen_object)
-        manager.current = self.data_screens[name_screen]["name_screen"]
+            print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
+        # manager.current = self.data_screens[name_screen]["name_screen"]
 
     def back_to_home_screen(self):
         self.root.ids.screen_manager.current = "home"
