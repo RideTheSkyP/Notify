@@ -1,0 +1,17 @@
+<NotifyBottomNavigation>:
+	size_hint_y: None
+	panel_color: .2, .2, .2, 1
+
+	MDBottomNavigationItem:
+		name: "scr 1"
+		text: "Python"
+		icon: "language-python"
+		on_enter: app.back_to_home_screen()
+
+	MDBottomNavigationItem:
+		name: "scr 2"
+		text: "C++"
+		icon: "language-cpp"
+		MDLabel:
+			text: "C++"
+			halign: "center"

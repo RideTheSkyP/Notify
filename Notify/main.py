@@ -51,6 +51,8 @@ class NotifyApp(MDApp):
 
     def build(self):
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/list_items.kv")
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/backdropLayers.kv")
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/navigationDrawer.kv")
         # MDDatePicker(callback=self.getSelectedDate)
         return Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/start_screen.kv")
 
@@ -63,15 +65,7 @@ class NotifyApp(MDApp):
     def on_start(self):
         # self.fps_monitor_start()
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv")
-        # self.root.ids.home.height = self.root.ids.home.height - self.root.ids.bottomNavigation.height
-        print(self.root.ids.home)
-        self.root.ids.backdropLayer.ids.frontLayerItems.data.append({
-                    "viewclass": "MDLabel",
-                    "text": "Home",
-                    # "icon": "android",
-                    # "on_release": lambda x=name_item_example: self.set_example_screen(x),
-                })
-        print(self.root.ids.backdropLayer.ids.frontLayerItems.data)
+        print(self.root.ids)
         # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:

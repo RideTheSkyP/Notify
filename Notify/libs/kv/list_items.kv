@@ -1,6 +1,5 @@
 #:import ItemDrawer libs.navigationDrawer.ItemDrawer
 
-
 <NotifyOneLineIconListItem>:
     IconLeftWidget:
         icon: root.icon
@@ -55,3 +54,12 @@
         icon: root.icon
         theme_text_color: "Custom"
         text_color: app.theme_cls.primary_color
+
+
+<NotifyThemeStyleSwitch>:
+    group: "style"
+    size_hint: None, None
+    theme_thumb_color: "Custom"
+    theme_thumb_down_color: "Custom"
+    size: "48dp", "48dp"
+    on_state: app.switch_theme_style(self.active)

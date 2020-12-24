@@ -7,7 +7,7 @@ from kivymd.uix.picker import MDDatePicker
 class Home(MDScreen):
     def __init__(self, **kw):
         super().__init__(**kw)
-        print(self.size)
+        # print(self)
     #     self.createCalendar()
     #
     # def createCalendar(self):
