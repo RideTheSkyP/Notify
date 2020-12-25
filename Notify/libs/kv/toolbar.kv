@@ -4,5 +4,5 @@
 	background_hue: "500"
 	elevation: 10
 	right_action_items: [["file-code" if self.theme_cls.device_orientation == "landscape" else "dots-vertical", lambda x: app.show_code()]]
-	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")], ["arrow-left", lambda x: app.back_to_home_screen()]]
+	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")], ["arrow-left", lambda x: app.backToHomeScreen()]]
 	pos_hint: {"top": 1}

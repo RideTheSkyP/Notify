@@ -95,8 +95,8 @@
 	header_text: "Menu"
 	right_action_items: [["cogs", lambda x: self.open()]]
 	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")]]
-	on_open: self.parent.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
-	on_close: self.parent.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_open: self.opening_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
+	on_close: self.closing_animation_backdrop_components_settings(backdropSettings, backlayerSettings)
 
 	MDBackdropBackLayer:
 		NotifyBackdropBackLayerSettings:

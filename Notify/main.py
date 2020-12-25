@@ -98,7 +98,7 @@ class NotifyApp(MDApp):
     def openScreen(self, screenName):
         self.root.ids.screenManager.current = self.data_screens[screenName]["screenName"]
 
-    def back_to_home_screen(self):
+    def backToHomeScreen(self):
         self.root.ids.screenManager.current = "home"
 
     def switch_theme_style(self, state):
