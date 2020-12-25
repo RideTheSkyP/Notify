@@ -8,7 +8,7 @@ from kivy.loader import Loader
 from kivy.properties import ObjectProperty
 from libs.dialog_change_theme import NotifyDialogChangeTheme
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
-from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem
+from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer
 from kivymd.uix.backdrop import MDBackdrop
 from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
@@ -16,7 +16,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd import images_path
 from kivymd.app import MDApp
 # from kivymd.uix.picker import MDDatePicker, MDTimePicker
-from libs.navigationDrawer import ItemDrawer, DrawerList
+from libs.navigationDrawer import DrawerList
 from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDIconButton
@@ -71,33 +71,35 @@ class NotifyApp(MDApp):
             self.data_screens = ast.literal_eval(read_file.read())
             data_screens = list(self.data_screens.keys())
             data_screens.sort()
+
         for name_item_example in data_screens:
             self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
                 text=name_item_example,
                 icon=self.data_screens[name_item_example]["icon"],
             ))
             self.set_example_screen(name_item_example)
-            print(name_item_example)
 
-    def set_example_screen(self, name_screen):
+    def set_example_screen(self, screenName):
         manager = self.root.ids.screenManager
 
-        if not manager.has_screen(self.data_screens[name_screen]["name_screen"]):
-            name_kv_file = self.data_screens[name_screen]["kv_string"]
+        if not manager.has_screen(self.data_screens[screenName]["screenName"]):
+            name_kv_file = self.data_screens[screenName]["kv_string"]
             Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/{name_kv_file}.kv", )
-            if "Import" in self.data_screens[name_screen]:
-                exec(self.data_screens[name_screen]["Import"])
-            screen_object = eval(self.data_screens[name_screen]["Factory"])
-            self.data_screens[name_screen]["object"] = screen_object
+            if "Import" in self.data_screens[screenName]:
+                exec(self.data_screens[screenName]["Import"])
+            screen_object = eval(self.data_screens[screenName]["Factory"])
+            self.data_screens[screenName]["object"] = screen_object
             print(screen_object.ids)
             if "toolbar" in screen_object.ids:
-                screen_object.ids.toolbar.title = name_screen
+                screen_object.ids.toolbar.title = screenName
             manager.add_widget(screen_object)
             print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
-        # manager.current = self.data_screens[name_screen]["name_screen"]
+
+    def openScreen(self, screenName):
+        self.root.ids.screenManager.current = self.data_screens[screenName]["screenName"]
 
     def back_to_home_screen(self):
-        self.root.ids.screen_manager.current = "home"
+        self.root.ids.screenManager.current = "home"
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"

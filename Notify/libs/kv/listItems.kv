@@ -45,10 +45,11 @@
 
 <ItemDrawer>:
     theme_text_color: "Custom"
-    on_release: self.parent.set_color_item(self)
+    on_state:
+        self.parent.set_color_item(self)
     on_press:
         app.root.ids.navigationDrawer.set_state("close")
-        app.root.ids.screenManager.current = self.text
+        app.openScreen(self.text)
 
     IconLeftWidget:
         id: icon
