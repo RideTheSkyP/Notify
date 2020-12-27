@@ -1,17 +1,24 @@
 #:import Toolbar libs.toolbar.Toolbar
+#:import Hint libs.toolbar.Hint
+
 
 <level1@MDScreen>:
 	name: "level1"
 
-	Toolbar:
+	Hint:
+        id: banner
+		over_widget: screen
+        vertical_pad: toolbar.height
 
-	NotifyBackdropLayer:
-		id: backdropLayer
+    Toolbar:
+        id: toolbar
+        right_action_items: [["information-variant", lambda x: banner.show()]]
 
-	MDBoxLayout:
+    MDBoxLayout:
+        id: screen
 		orientation: "vertical"
 		adaptive_size: True
 		pos_hint: {"center_x": .5, "center_y": .5}
 
-		MDLabel:
+        MDLabel:
 			text: "KekW"

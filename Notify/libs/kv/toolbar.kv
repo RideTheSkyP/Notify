@@ -3,6 +3,11 @@
 	background_palette: "Primary"
 	background_hue: "500"
 	elevation: 10
-	right_action_items: [["file-code" if self.theme_cls.device_orientation == "landscape" else "dots-vertical", lambda x: app.show_code()]]
+	right_action_items: [["information-outline", lambda x: app.showHint(self.parent.name)]]
 	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")], ["arrow-left", lambda x: app.backToHomeScreen()]]
 	pos_hint: {"top": 1}
+
+
+<Hint>:
+    text: ["One line string text example without actions."]
+    left_action: ["CANCEL", lambda x: None]

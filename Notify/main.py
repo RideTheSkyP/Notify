@@ -45,7 +45,7 @@ class NotifyApp(MDApp):
         self.theme_cls.primary_palette = "Teal"
         self.dialog_change_theme = None
         self.toolbar = None
-        self.data_screens = {}
+        self.screensData = {}
         Loader.loading_image = f"{images_path}transparent.png"
 
     def build(self):
@@ -68,27 +68,26 @@ class NotifyApp(MDApp):
         # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
-            self.data_screens = ast.literal_eval(read_file.read())
-            data_screens = list(self.data_screens.keys())
-            data_screens.sort()
+            self.screensData = ast.literal_eval(read_file.read())
+            screensData = list(self.screensData.keys())
+            screensData.sort()
 
-        for name_item_example in data_screens:
+        for name_item_example in screensData:
             self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
                 text=name_item_example,
-                icon=self.data_screens[name_item_example]["icon"],
+                icon=self.screensData[name_item_example]["icon"],
             ))
             self.set_example_screen(name_item_example)
 
     def set_example_screen(self, screenName):
         manager = self.root.ids.screenManager
 
-        if not manager.has_screen(self.data_screens[screenName]["screenName"]):
-            name_kv_file = self.data_screens[screenName]["kv_string"]
-            Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/{name_kv_file}.kv", )
-            if "Import" in self.data_screens[screenName]:
-                exec(self.data_screens[screenName]["Import"])
-            screen_object = eval(self.data_screens[screenName]["Factory"])
-            self.data_screens[screenName]["object"] = screen_object
+        if not manager.has_screen(self.screensData[screenName]["screenName"]):
+            Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/{self.screensData[screenName]['screenName']}.kv",)
+            if "Import" in self.screensData[screenName]:
+                exec(self.screensData[screenName]["Import"])
+            screen_object = eval(self.screensData[screenName]["Factory"])
+            self.screensData[screenName]["object"] = screen_object
             print(screen_object.ids)
             if "toolbar" in screen_object.ids:
                 screen_object.ids.toolbar.title = screenName
@@ -96,7 +95,7 @@ class NotifyApp(MDApp):
             print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
-        self.root.ids.screenManager.current = self.data_screens[screenName]["screenName"]
+        self.root.ids.screenManager.current = self.screensData[screenName]["screenName"]
 
     def backToHomeScreen(self):
         self.root.ids.screenManager.current = "home"
@@ -105,6 +104,10 @@ class NotifyApp(MDApp):
         self.theme_cls.theme_style = "Dark" if state else "Light"
         # self.theme_cls.text_color = "Gray" if state else "Light"
 
+    def showHint(self, screenName):
+        for key, value in self.screensData.items():
+            if screenName in value.get("screenName"):
+                print(self.screensData[key]["hint"])
     # def show_time_picker(self):
     #     time_dialog = MDTimePicker()
     #     time_dialog.open()
