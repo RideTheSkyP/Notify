@@ -5,17 +5,12 @@ from pathlib import Path
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, StringProperty
 from libs.dialog_change_theme import NotifyDialogChangeTheme
-from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer
-from kivymd.uix.backdrop import MDBackdrop
-from kivymd.uix.navigationdrawer import MDNavigationDrawer
-from kivymd.uix.backdrop import MDBackdropFrontLayer
-from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd import images_path
 from kivymd.app import MDApp
-# from kivymd.uix.picker import MDDatePicker, MDTimePicker
+from kivy.core.window import Window
 from libs.navigationDrawer import DrawerList
 from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
@@ -23,7 +18,13 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
 from kivymd.uix.boxlayout import BoxLayout
-from kivy.core.window import Window
+from kivymd.uix.backdrop import MDBackdrop
+from kivymd.uix.navigationdrawer import MDNavigationDrawer
+from kivymd.uix.backdrop import MDBackdropFrontLayer
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.uix.picker import MDDatePicker, MDTimePicker
+from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
+from kivymd.uix.banner import MDBanner
 
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
@@ -33,18 +34,21 @@ if getattr(sys, "frozen", False):  # bundle mode with PyInstaller
 else:
     sys.path.append(os.path.abspath(__file__).split("Project")[0])
     os.environ["NOTIFY_ROOT"] = str(Path(__file__).parent)
-    # os.environ["NOTIFY_ROOT"] = os.path.dirname(os.path.abspath(__file__))
 
 os.environ["NOTIFY_ASSETS"] = os.path.join(os.environ["NOTIFY_ROOT"], f"assets{os.sep}")
 Window.softinput_mode = "below_target"
 
 
 class NotifyApp(MDApp):
+
+    hintText = StringProperty()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.theme_cls.primary_palette = "Teal"
         self.dialog_change_theme = None
         self.toolbar = None
+        # self.hintText = ""
         self.screensData = {}
         Loader.loading_image = f"{images_path}transparent.png"
 
@@ -64,7 +68,7 @@ class NotifyApp(MDApp):
 
     def on_start(self):
         # self.fps_monitor_start()
-        print(f"{self.root.ids}\n")
+        print(f"{self.root.ids.backdropLayers.ids.frontLayerItems}")
         # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
@@ -88,7 +92,6 @@ class NotifyApp(MDApp):
                 exec(self.screensData[screenName]["Import"])
             screen_object = eval(self.screensData[screenName]["Factory"])
             self.screensData[screenName]["object"] = screen_object
-            print(screen_object.ids)
             if "toolbar" in screen_object.ids:
                 screen_object.ids.toolbar.title = screenName
             manager.add_widget(screen_object)
@@ -107,17 +110,15 @@ class NotifyApp(MDApp):
     def showHint(self, screenName):
         for key, value in self.screensData.items():
             if screenName in value.get("screenName"):
-                print(self.screensData[key]["hint"])
-    # def show_time_picker(self):
-    #     time_dialog = MDTimePicker()
-    #     time_dialog.open()
+                self.hintText = self.screensData[key]["hint"]
 
-    # def getSelectedDate(self, date):
-    #     print(date)
-    #
-    # def datePicker(self):
-    #     calendarWidget = MDDatePicker(callback=self.getSelectedDate)
-    #     calendarWidget.open()
+    def getSelectedDate(self, date):
+        if str(date) == self.screensData["Home"]["answer"]:
+            print(str(date))
+
+    def datePicker(self):
+        calendarWidget = MDDatePicker(callback=self.getSelectedDate)
+        calendarWidget.open()
 
 
 NotifyApp().run()
