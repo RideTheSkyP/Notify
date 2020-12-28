@@ -1,6 +1,5 @@
-from kivy.properties import StringProperty
 from kivy.uix.modalview import ModalView
-from kivy.utils import get_color_from_hex, get_hex_from_color
+from kivy.utils import get_color_from_hex
 from kivymd.color_definitions import colors, palette
 from kivymd.theming import ThemableBehavior
 

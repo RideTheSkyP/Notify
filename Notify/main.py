@@ -102,10 +102,7 @@ class NotifyApp(MDApp):
             print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
-        self.root.ids.screenManager.current = self.screensData[screenName]["screenName"]
-
-    def backToHomeScreen(self):
-        self.root.ids.screenManager.current = "home"
+        self.root.ids.screenManager.current = screenName
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
@@ -117,7 +114,7 @@ class NotifyApp(MDApp):
                 self.hintText = self.screensData[key]["hint"]
 
     def getSelectedDate(self, date):
-        if str(date) == self.screensData["Home"]["answer"]:
+        if str(date) == self.screensData[self.root.ids.screenManager.current]["answer"]:
             self.showDialog()
 
     def datePicker(self):
@@ -125,8 +122,7 @@ class NotifyApp(MDApp):
         calendarWidget.open()
 
     def showDialog(self):
-        self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData['Home']['image']}"
-        print(self.currentImage)
+        self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['image']}"
         if not self.dialog:
             self.dialog = MDDialog(
                 type="custom",
@@ -151,7 +147,7 @@ class NotifyApp(MDApp):
         if widget.__class__.__name__ == "MDRectangleFlatButton":
             self.dialog.dismiss()
         elif widget.__class__.__name__ == "MDRaisedButton":
-            self.openScreen("Level 1")
+            self.openScreen(self.screensData[self.root.ids.screenManager.current]["nextScreen"])
             self.dialog.dismiss()
 
 
