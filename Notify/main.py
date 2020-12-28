@@ -8,13 +8,14 @@ from kivy.loader import Loader
 from kivy.properties import ObjectProperty, StringProperty
 from libs.dialog_change_theme import NotifyDialogChangeTheme
 from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer
+from libs.dialogBox import DialogContent
 from kivymd import images_path
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from libs.navigationDrawer import DrawerList
 from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDIconButton
+from kivymd.uix.button import MDIconButton, MDFlatButton, MDRaisedButton
 from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
 from kivymd.uix.boxlayout import BoxLayout
@@ -25,6 +26,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from kivymd.uix.banner import MDBanner
+from kivymd.uix.list import MDList
+from kivymd.uix.dialog import MDDialog
 
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
@@ -40,15 +43,15 @@ Window.softinput_mode = "below_target"
 
 
 class NotifyApp(MDApp):
-
+    dialog = None
     hintText = StringProperty()
+    currentImage = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.theme_cls.primary_palette = "Teal"
         self.dialog_change_theme = None
         self.toolbar = None
-        # self.hintText = ""
         self.screensData = {}
         Loader.loading_image = f"{images_path}transparent.png"
 
@@ -58,6 +61,7 @@ class NotifyApp(MDApp):
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/navigationDrawer.kv")
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialog_change_theme.kv")
         Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/toolbar.kv")
+        Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/dialogBox.kv")
         return Builder.load_file(f"{os.environ['NOTIFY_ROOT']}/libs/kv/startScreen.kv")
 
     def show_dialog_change_theme(self):
@@ -115,10 +119,34 @@ class NotifyApp(MDApp):
     def getSelectedDate(self, date):
         if str(date) == self.screensData["Home"]["answer"]:
             print(str(date))
+            self.showDialog()
 
     def datePicker(self):
         calendarWidget = MDDatePicker(callback=self.getSelectedDate)
         calendarWidget.open()
+
+    def showDialog(self):
+        self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData['Home']['image']}"
+        print(self.currentImage)
+        if not self.dialog:
+            self.dialog = MDDialog(
+                type="custom",
+                size_hint=(1, 1),
+                title="You completed:D",
+                auto_dismiss=False,
+                buttons=[
+                    MDRaisedButton(
+                        text="Next level",
+                        on_release=lambda x: self.closeDialog(x)
+                    ),
+                ],
+                content_cls=DialogContent())
+
+        self.dialog.open()
+
+    def closeDialog(self, widget):
+        if widget.__class__.__name__ == "MDRaisedButton":
+            self.dialog.dismiss()
 
 
 NotifyApp().run()
