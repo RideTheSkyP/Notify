@@ -1,13 +1,10 @@
 <DialogContent>:
-	MDLabel:
-		halign: "center"
-		text: "Some text"
+	orientation: "vertical"
+    spacing: "6dp"
+    size_hint_y: None
+    height: Window.height - 150
 
-#	radius: [25, 0, 0, 0]
-#	md_bg_color: app.theme_cls.primary_color
-#	FitImage:
-#		id: image
-#        size_hint_y: 1
-#        source: app.currentImage
-#        pos_hint: {"top": 1}
-#        radius: [36, 36, 0, 0, ]
+	FitImage:
+		id: image
+        size_hint_y: 10
+        source: app.currentImage

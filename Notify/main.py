@@ -15,7 +15,7 @@ from kivy.core.window import Window
 from libs.navigationDrawer import DrawerList
 from kivymd.stiffscroll import StiffScrollEffect
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDIconButton, MDFlatButton, MDRaisedButton
+from kivymd.uix.button import MDIconButton, MDFlatButton, MDRaisedButton, MDRectangleFlatButton
 from kivymd.uix.toolbar import MDBottomAppBar
 from kivymd.uix.bottomnavigation import MDBottomNavigation
 from kivymd.uix.boxlayout import BoxLayout
@@ -118,7 +118,6 @@ class NotifyApp(MDApp):
 
     def getSelectedDate(self, date):
         if str(date) == self.screensData["Home"]["answer"]:
-            print(str(date))
             self.showDialog()
 
     def datePicker(self):
@@ -135,6 +134,10 @@ class NotifyApp(MDApp):
                 title="You completed:D",
                 auto_dismiss=False,
                 buttons=[
+                    MDRectangleFlatButton(
+                        text="Cancel",
+                        on_release=lambda x: self.closeDialog(x)
+                    ),
                     MDRaisedButton(
                         text="Next level",
                         on_release=lambda x: self.closeDialog(x)
@@ -145,7 +148,10 @@ class NotifyApp(MDApp):
         self.dialog.open()
 
     def closeDialog(self, widget):
-        if widget.__class__.__name__ == "MDRaisedButton":
+        if widget.__class__.__name__ == "MDRectangleFlatButton":
+            self.dialog.dismiss()
+        elif widget.__class__.__name__ == "MDRaisedButton":
+            self.openScreen("Level 1")
             self.dialog.dismiss()
 
 
