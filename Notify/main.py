@@ -46,6 +46,7 @@ class NotifyApp(MDApp):
     dialog = None
     hintText = StringProperty()
     currentImage = StringProperty()
+    backgroundImage = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -86,6 +87,7 @@ class NotifyApp(MDApp):
                 icon=self.screensData[name_item_example]["icon"],
             ))
             self.set_example_screen(name_item_example)
+            self.backgroundImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['backgroundImage']}"
 
     def set_example_screen(self, screenName):
         manager = self.root.ids.screenManager
@@ -97,12 +99,13 @@ class NotifyApp(MDApp):
             screen_object = eval(self.screensData[screenName]["Factory"])
             self.screensData[screenName]["object"] = screen_object
             if "toolbar" in screen_object.ids:
-                screen_object.ids.toolbar.title = screenName
+                screen_object.ids.toolbar.title = self.screensData[screenName]["toolbar"]
             manager.add_widget(screen_object)
             print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
         self.root.ids.screenManager.current = screenName
+        self.backgroundImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['backgroundImage']}"
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"

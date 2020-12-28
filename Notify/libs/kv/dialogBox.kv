@@ -2,9 +2,16 @@
 	orientation: "vertical"
     spacing: "6dp"
     size_hint_y: None
-    height: Window.height - 150
+    height: Window.height - 350
 
-	FitImage:
+	Image:
 		id: image
-        size_hint_y: 10
+#        size_hint_y: .9
+#        keep_ratio: True
+#        size_hint_x: 1
+#        allow_stretch: True
+#        width: dp(60)
+#        width: self.parent.width
+#		height: self.parent.width/self.image_ratio
+		size: self.texture_size
         source: app.currentImage
