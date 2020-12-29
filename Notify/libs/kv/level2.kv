@@ -1,0 +1,176 @@
+#:import Hint libs.toolbar.Hint
+
+<level2@MDScreen>:
+	name: "level2"
+
+	FitImage:
+	    id: backgroundImage
+	    size_hint_y: 1
+		source: app.backgroundImage
+
+	Hint:
+        id: banner
+		over_widget: screen
+        vertical_pad: toolbar.height
+
+    Toolbar:
+        id: toolbar
+        right_action_items: [["information-variant", lambda x: (banner.show(), app.showHint(self.parent.name))]]
+
+	MDGridLayout:
+		id: screen
+		cols: 3
+		rows: 10
+		orientation: "lr-bt"
+		padding: [10, 10, 10, 10]
+
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: app.showDialog()
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0
+		MDRaisedButton:
+			text: "        "
+			width: dp(15)
+			md_bg_color: rgba("#6A1B9A")
+			on_release: self.opacity=0

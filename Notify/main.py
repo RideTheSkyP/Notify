@@ -5,7 +5,8 @@ from pathlib import Path
 from kivy.factory import Factory
 from kivy.lang import Builder
 from kivy.loader import Loader
-from kivy.properties import ObjectProperty, StringProperty
+from kivy.properties import ObjectProperty, StringProperty, ListProperty
+from kivy.clock import Clock
 from libs.dialog_change_theme import NotifyDialogChangeTheme
 from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer
 from libs.dialogBox import DialogContent
@@ -45,12 +46,15 @@ Window.softinput_mode = "below_target"
 
 class NotifyApp(MDApp):
     dialog = None
-    hintText = StringProperty()
+    hintText = ListProperty()
     currentImage = StringProperty()
     backgroundImage = StringProperty()
     currentAnswer = StringProperty()
     currentScreen = StringProperty()
     nextScreen = StringProperty()
+    currentDialogTitle = StringProperty()
+    dialogText = StringProperty()
+    dialogTitle = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -84,12 +88,12 @@ class NotifyApp(MDApp):
             screensData = list(self.screensData.keys())
             screensData.sort()
 
-        for name_item_example in screensData:
+        for screenName in screensData:
             self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
-                text=name_item_example,
-                icon=self.screensData[name_item_example]["icon"],
+                text=screenName,
+                icon=self.screensData[screenName]["icon"],
             ))
-            self.set_example_screen(name_item_example)
+            self.set_example_screen(screenName)
             self.openScreen("home")
 
     def set_example_screen(self, screenName):
@@ -112,6 +116,8 @@ class NotifyApp(MDApp):
         self.currentAnswer = self.screensData[self.root.ids.screenManager.current]["answer"]
         self.nextScreen = self.screensData[self.root.ids.screenManager.current]["nextScreen"]
         self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['image']}"
+        self.dialogText = self.screensData[self.root.ids.screenManager.current]["dialogText"]
+        self.dialogTitle = self.screensData[self.root.ids.screenManager.current]["dialogTitle"]
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
@@ -135,7 +141,7 @@ class NotifyApp(MDApp):
             self.dialog = MDDialog(
                 type="custom",
                 size_hint=(1, 1),
-                title="You completed:D",
+                title=self.dialogTitle,
                 auto_dismiss=False,
                 buttons=[
                     MDRectangleFlatButton(
@@ -154,8 +160,8 @@ class NotifyApp(MDApp):
         if widget.__class__.__name__ == "MDRectangleFlatButton":
             self.dialog.dismiss()
         elif widget.__class__.__name__ == "MDRaisedButton":
-            self.openScreen(self.screensData[self.root.ids.screenManager.current]["nextScreen"])
             self.dialog.dismiss()
+            self.openScreen(self.nextScreen)
 
 
 NotifyApp().run()
