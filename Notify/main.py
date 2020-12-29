@@ -28,6 +28,7 @@ from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from kivymd.uix.banner import MDBanner
 from kivymd.uix.list import MDList
 from kivymd.uix.dialog import MDDialog
+from kivymd.uix.textfield import MDTextField
 
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
@@ -47,6 +48,9 @@ class NotifyApp(MDApp):
     hintText = StringProperty()
     currentImage = StringProperty()
     backgroundImage = StringProperty()
+    currentAnswer = StringProperty()
+    currentScreen = StringProperty()
+    nextScreen = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -73,7 +77,6 @@ class NotifyApp(MDApp):
 
     def on_start(self):
         # self.fps_monitor_start()
-        print(f"{self.root.ids.backdropLayers.ids.frontLayerItems}")
         # self.root.ids.home.add_widget(MDDatePicker(callback=self.getSelectedDate))
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
@@ -87,7 +90,7 @@ class NotifyApp(MDApp):
                 icon=self.screensData[name_item_example]["icon"],
             ))
             self.set_example_screen(name_item_example)
-            self.backgroundImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['backgroundImage']}"
+            self.openScreen("home")
 
     def set_example_screen(self, screenName):
         manager = self.root.ids.screenManager
@@ -104,8 +107,11 @@ class NotifyApp(MDApp):
             print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
-        self.root.ids.screenManager.current = screenName
+        self.root.ids.screenManager.current = self.currentScreen = screenName
         self.backgroundImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['backgroundImage']}"
+        self.currentAnswer = self.screensData[self.root.ids.screenManager.current]["answer"]
+        self.nextScreen = self.screensData[self.root.ids.screenManager.current]["nextScreen"]
+        self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['image']}"
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
@@ -117,7 +123,7 @@ class NotifyApp(MDApp):
                 self.hintText = self.screensData[key]["hint"]
 
     def getSelectedDate(self, date):
-        if str(date) == self.screensData[self.root.ids.screenManager.current]["answer"]:
+        if str(date) == self.currentAnswer:
             self.showDialog()
 
     def datePicker(self):
@@ -125,7 +131,6 @@ class NotifyApp(MDApp):
         calendarWidget.open()
 
     def showDialog(self):
-        self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['image']}"
         if not self.dialog:
             self.dialog = MDDialog(
                 type="custom",
@@ -143,7 +148,6 @@ class NotifyApp(MDApp):
                     ),
                 ],
                 content_cls=DialogContent())
-
         self.dialog.open()
 
     def closeDialog(self, widget):

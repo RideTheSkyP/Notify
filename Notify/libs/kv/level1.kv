@@ -5,6 +5,11 @@
 <level1@MDScreen>:
 	name: "level1"
 
+	FitImage:
+	    id: backgroundImage
+	    size_hint_y: 1
+		source: app.backgroundImage
+
 	Hint:
         id: banner
 		over_widget: screen
@@ -12,13 +17,82 @@
 
     Toolbar:
         id: toolbar
-        right_action_items: [["information-variant", lambda x: banner.show()]]
+        right_action_items: [["information-variant", lambda x: (banner.show(), app.showHint(self.parent.name))]]
 
     MDBoxLayout:
         id: screen
 		orientation: "vertical"
-		adaptive_size: True
-		pos_hint: {"center_x": .5, "center_y": .5}
+		size_hint_y: None
+		pos_hint: {"center_x": .5, "center_y": .4}
 
-        MDLabel:
-			text: "KekW"
+	    MDLabel:
+	        halign: "center"
+	        text:
+	        theme_text_color: "Custom"
+	        text_color: rgba("#FFCA28")
+	        pos_hint: {"center_x": .5, "center_y": .5}
+
+	    MDLabel:
+	        halign: "right"
+	        text: "YL"
+	        theme_text_color: "Custom"
+	        text_color: rgba("#0277BD")
+	        pos_hint: {"center_x": .5, "center_y": 0}
+
+		MDBoxLayout:
+			orientation: "vertical"
+			pos_hint: {"center_x": .5, "center_y": .5}
+			padding: dp(72)
+			size_hint_y: None
+			height: self.minimum_height
+
+		    MDTextField:
+		        id: textField
+			    hint_text:
+			    mode: "rectangle"
+			    helper_text: 
+	            helper_text_mode: "on_error"
+	            pos_hint: {"center_y": .5}
+	            on_text_validate: self.error=True if self.text!=app.currentAnswer else (lambda x:self.error==False, app.openScreen(app.nextScreen))
+
+	MDBoxLayout:
+        id: screen
+		orientation: "vertical"
+		size_hint_y: None
+		pos_hint: {"center_x": .05, "center_y": .05}
+
+	    MDLabel:
+	        halign: "left"
+	        text: "IO"
+	        theme_text_color: "Custom"
+	        text_color: rgba("#1B5E20")
+	        opacity: 0.5
+	        pos_hint: {"center_x": 1, "center_y": 1}
+
+	MDBoxLayout:
+        id: screen
+		orientation: "vertical"
+		size_hint_y: None
+		pos_hint: {"center_x": .005, "center_y": .82}
+
+	    MDLabel:
+	        halign: "left"
+	        text: "EV"
+	        theme_text_color: "Custom"
+	        text_color: rgba("#E3F2FD")
+	        opacity: .5
+	        pos_hint: {"center_x": 1, "center_y": 1}
+
+	MDBoxLayout:
+        id: screen
+		orientation: "vertical"
+		size_hint_y: None
+		pos_hint: {"center_x": .35, "center_y": .7}
+
+	    MDLabel:
+	        halign: "left"
+	        text: "U"
+	        theme_text_color: "Custom"
+	        text_color: rgba("#E3F2FD")
+	        opacity: .25
+	        pos_hint: {"center_x": 1, "center_y": 1}
