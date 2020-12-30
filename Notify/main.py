@@ -89,14 +89,10 @@ class NotifyApp(MDApp):
             screensData.sort()
 
         for screenName in screensData:
-            self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
-                text=screenName,
-                icon=self.screensData[screenName]["icon"],
-            ))
-            self.set_example_screen(screenName)
-            self.openScreen("home")
+            self.setScreen(screenName)
+        self.openScreen("home")
 
-    def set_example_screen(self, screenName):
+    def setScreen(self, screenName):
         manager = self.root.ids.screenManager
 
         if not manager.has_screen(self.screensData[screenName]["screenName"]):
@@ -111,6 +107,10 @@ class NotifyApp(MDApp):
             print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
+        self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
+            text=screenName,
+            icon=self.screensData[screenName]["icon"],
+        ))
         self.root.ids.screenManager.current = self.currentScreen = screenName
         self.backgroundImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['backgroundImage']}"
         self.currentAnswer = self.screensData[self.root.ids.screenManager.current]["answer"]
@@ -118,15 +118,12 @@ class NotifyApp(MDApp):
         self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['image']}"
         self.dialogText = self.screensData[self.root.ids.screenManager.current]["dialogText"]
         self.dialogTitle = self.screensData[self.root.ids.screenManager.current]["dialogTitle"]
+        self.hintText = self.screensData[self.root.ids.screenManager.current]["hint"]
+        # if screenName
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
         # self.theme_cls.text_color = "Gray" if state else "Light"
-
-    def showHint(self, screenName):
-        for key, value in self.screensData.items():
-            if screenName in value.get("screenName"):
-                self.hintText = self.screensData[key]["hint"]
 
     def getSelectedDate(self, date):
         if str(date) == self.currentAnswer:
@@ -135,6 +132,15 @@ class NotifyApp(MDApp):
     def datePicker(self):
         calendarWidget = MDDatePicker(callback=self.getSelectedDate)
         calendarWidget.open()
+
+    def showTimePicker(self):
+        timeWidget = MDTimePicker()
+        timeWidget.bind(time=self.getSelectedTime)
+        timeWidget.open()
+
+    def getSelectedTime(self, instance, time):
+        if str(time) == self.currentAnswer:
+            self.showDialog()
 
     def showDialog(self):
         if not self.dialog:
