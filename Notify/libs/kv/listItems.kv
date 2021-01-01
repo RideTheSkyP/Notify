@@ -65,3 +65,34 @@
     theme_thumb_down_color: "Custom"
     size: "48dp", "48dp"
     on_state: app.switch_theme_style(self.active)
+
+
+<NotifySwiperMagicButton@MagicBehavior+MDIconButton>
+
+<NotifySwiperItem>:
+    RelativeLayout:
+        Image:
+            id: image
+            source: root.source
+#            radius: [20,]
+
+        MDBoxLayout:
+            adaptive_height: True
+            spacing: "12dp"
+            md_bg_color: 0, 0, 0, .4
+#            radius: [0, 0, image.radius[0], image.radius[0]]
+
+            NotifySwiperMagicButton:
+                id: icon
+                icon: "weather-sunny"
+                user_font_size: "56sp"
+                opposite_colors: True
+
+            MDLabel:
+                text: os.path.split(root.source)[1]
+                font_style: "H5"
+                size_hint_y: None
+                height: self.texture_size[1]
+                pos_hint: {"center_y": .5}
+                opposite_colors: True
+                shorten: True

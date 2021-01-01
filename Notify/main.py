@@ -8,7 +8,7 @@ from kivy.loader import Loader
 from kivy.properties import ObjectProperty, StringProperty, ListProperty
 from kivy.clock import Clock
 from libs.dialog_change_theme import NotifyDialogChangeTheme
-from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer
+from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer, NotifySwiperItem
 from libs.dialogBox import DialogContent
 from kivymd import images_path
 from kivymd.app import MDApp
@@ -30,6 +30,7 @@ from kivymd.uix.banner import MDBanner
 from kivymd.uix.list import MDList
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.textfield import MDTextField
+import time
 
 
 os.environ["KIVY_PROFILE_LANG"] = "1"
@@ -46,15 +47,7 @@ Window.softinput_mode = "below_target"
 
 class NotifyApp(MDApp):
     dialog = None
-    hintText = ListProperty()
-    currentImage = StringProperty()
-    backgroundImage = StringProperty()
-    currentAnswer = StringProperty()
     currentScreen = StringProperty()
-    nextScreen = StringProperty()
-    currentDialogTitle = StringProperty()
-    dialogText = StringProperty()
-    dialogTitle = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -85,12 +78,13 @@ class NotifyApp(MDApp):
 
         with open(f"{os.environ['NOTIFY_ROOT']}/screens_data.json") as read_file:
             self.screensData = ast.literal_eval(read_file.read())
-            screensData = list(self.screensData.keys())
-            screensData.sort()
 
-        for screenName in screensData:
+        for screenName in self.screensData:
             self.setScreen(screenName)
-        self.openScreen("home")
+            self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
+                text=screenName,
+                icon=self.screensData[screenName]["icon"],
+            ))
 
     def setScreen(self, screenName):
         manager = self.root.ids.screenManager
@@ -104,30 +98,16 @@ class NotifyApp(MDApp):
             if "toolbar" in screen_object.ids:
                 screen_object.ids.toolbar.title = self.screensData[screenName]["toolbar"]
             manager.add_widget(screen_object)
-            print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
-        self.root.ids.contentDrawer.ids.drawerList.add_widget(ItemDrawer(
-            text=screenName,
-            icon=self.screensData[screenName]["icon"],
-        ))
         self.root.ids.screenManager.current = self.currentScreen = screenName
-        self.backgroundImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['backgroundImage']}"
-        self.currentAnswer = self.screensData[self.root.ids.screenManager.current]["answer"]
-        self.nextScreen = self.screensData[self.root.ids.screenManager.current]["nextScreen"]
-        self.currentImage = f"{os.environ['NOTIFY_ASSETS'] + self.screensData[self.root.ids.screenManager.current]['image']}"
-        self.dialogText = self.screensData[self.root.ids.screenManager.current]["dialogText"]
-        self.dialogTitle = self.screensData[self.root.ids.screenManager.current]["dialogTitle"]
-        self.hintText = self.screensData[self.root.ids.screenManager.current]["hint"]
-        # if screenName
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
         # self.theme_cls.text_color = "Gray" if state else "Light"
 
     def getSelectedDate(self, date):
-        if str(date) == self.currentAnswer:
-            self.showDialog()
+        print(date)
 
     def datePicker(self):
         calendarWidget = MDDatePicker(callback=self.getSelectedDate)
@@ -139,24 +119,23 @@ class NotifyApp(MDApp):
         timeWidget.open()
 
     def getSelectedTime(self, instance, time):
-        if str(time) == self.currentAnswer:
-            self.showDialog()
+        print(time)
 
     def showDialog(self):
         if not self.dialog:
             self.dialog = MDDialog(
                 type="custom",
                 size_hint=(1, 1),
-                title=self.dialogTitle,
+                title="Dialog",
                 auto_dismiss=False,
                 buttons=[
                     MDRectangleFlatButton(
                         text="Cancel",
-                        on_release=lambda x: self.closeDialog(x)
+                        on_press=lambda x: self.closeDialog(x)
                     ),
                     MDRaisedButton(
                         text="Next level",
-                        on_release=lambda x: self.closeDialog(x)
+                        on_press=lambda x: self.closeDialog(x)
                     ),
                 ],
                 content_cls=DialogContent())
@@ -167,7 +146,7 @@ class NotifyApp(MDApp):
             self.dialog.dismiss()
         elif widget.__class__.__name__ == "MDRaisedButton":
             self.dialog.dismiss()
-            self.openScreen(self.nextScreen)
+            # self.openScreen(self.nextScreen)
 
 
 NotifyApp().run()

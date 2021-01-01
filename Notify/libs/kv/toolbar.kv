@@ -3,11 +3,12 @@
 	background_palette: "Primary"
 	background_hue: "500"
 	elevation: 10
-	right_action_items: [["information-outline", lambda x: app.showHint(self.parent.name)]]
+#	right_action_items: [["information-outline", lambda x: app.showHint(self.parent.name)]]
 	left_action_items: [["menu", lambda x: app.root.ids.navigationDrawer.set_state("open")], ["arrow-left", lambda x: app.openScreen("home")]]
 	pos_hint: {"top": 1}
 
 
 <Hint>:
-    text: [app.hintText]
+	type: "two-line"
+    text: app.hintText
     left_action: ["CANCEL", lambda x: None]

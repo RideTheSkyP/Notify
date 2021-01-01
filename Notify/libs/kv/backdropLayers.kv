@@ -1,51 +1,55 @@
 <NotifyBackdropFrontLayer>:
+#	FitImage:
+#	    id: backgroundImage
+#	    size_hint_y: 1
+#		source: app.backgroundImage
+
 	MDBoxLayout:
-        spacing: "12dp"
+        id: backdropFrontLayerCenterBox
         orientation: "vertical"
-        adaptive_size: True
-        pos_hint: {"center_x": .5, "center_y": .5}
-#        md_bg_color: app.theme_cls.primary_color
+        size_hint_y: None
+        spacing: "120dp"
+        pos_hint: {"center_x": .5, "center_y": .7}
 
-        MDBoxLayout:
-            id: backdropFrontLayerCenterBox
-            orientation: "vertical"
-            adaptive_size: True
-            spacing: "12dp"
-#            md_bg_color: app.theme_cls.primary_color
+        MDLabel:
+            halign: "center"
+            font_style: "H4"
+            text: ""
+            theme_text_color: "Custom"
+            text_color: rgba("#FF7043")
+            pos_hint: {"center_x": .5, "center_y": .55}
 
-            MDLabel:
-                id: time_picker_label
-                adaptive_size: True
-                halign: "center"
-                text: "00:00"
+		MDLabel:
+            halign: "center"
+		    text: ""
+            theme_text_color: "Custom"
+            text_color: rgba("#64DD17")
+            pos_hint: {"center_x": .5, "center_y": .25}
 
-#            MDBoxLayout:
-#                id: box_time
-#                adaptive_size: True
-#
-#                MDLabel:
-#                    text: "Start on previous time"
-#                    adaptive_size: True
-#                    pos_hint: {"center_y": .5}
-#
-#                MDCheckbox:
-#                    id: time_picker_use_previous_time
-#                    size_hint: None, None
-#                    size: "48dp", "48dp"
-#
-#            MDBoxLayout:
-#                adaptive_size: True
-#
-#                MDLabel:
-#                    text: "Use military mode"
-#                    adaptive_size: True
-#                    pos_hint: {"center_y": .5}
-#
-#                MDCheckbox:
-#                    size_hint: None, None
-#                    size: "48dp", "48dp"
-#                    on_active: root.military = 1 if self.active else 0
+    MDBoxLayout:
+		id: secondaryBox
+        spacing: "96dp"
+        orientation: "vertical"
+		size_hint_y: None
+        pos_hint: {"center_x": .5, "center_y": .25}
 
+		MDLabel:
+            id: textLabel
+            halign: "center"
+            text: ""
+			theme_text_color: "Custom"
+            text_color: rgba("#E91E63")
+            pos_hint: {'center_x': .5, 'center_y': 1}
+
+		MDFillRoundFlatButton:
+			text: "Open date picker"
+			theme_text_color: "Custom"
+            text_color: rgba("#6A1B9A")
+	        pos_hint: {'center_x': .5, 'center_y': .05}
+	        md_bg_color: rgba("#FFEB3B")
+			on_release: app.datePicker()
+
+#		MDDatePicker:
 #        MDBoxLayout:
 #            orientation: "vertical"
 #            adaptive_size: True
