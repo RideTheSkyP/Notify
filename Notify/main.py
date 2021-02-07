@@ -98,6 +98,7 @@ class NotifyApp(MDApp):
             if "toolbar" in screen_object.ids:
                 screen_object.ids.toolbar.title = self.screensData[screenName]["toolbar"]
             manager.add_widget(screen_object)
+        # print(f"Builder: {Builder.files}\nFactory: {Factory.classes}\nManager: {manager.screens}")
 
     def openScreen(self, screenName):
         self.root.ids.screenManager.current = self.currentScreen = screenName
