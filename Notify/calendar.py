@@ -200,72 +200,69 @@ Builder.load_string("""
     background: "{}/transparent.png".format(images_path)
     cal_layout: cal_layout
     size_hint: (None, None)
+    # adaptive_size: True
     size:
         (dp(328), dp(484)) \
         if self.theme_cls.device_orientation == "portrait" \
         else (dp(512), dp(304))
     pos_hint: {"center_x": .5, "center_y": .5}
     
-    MDLabel:
-        id: label_full_date
-        font_style: "H4"
-        text_color: root.specific_text_color
-        theme_text_color: "Custom"
-        size_hint: (None, None)
-        size:
-            (root.width, dp(30)) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (dp(168), dp(30))
-        pos:
-            (root.pos[0] + dp(23), root.pos[1] + root.height - dp(74)) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (root.pos[0] + dp(3), root.pos[1] + dp(214))
-        line_height: .84
-        valign: "middle"
-        text_size:
-            (root.width, None) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (dp(149), None)
-        bold: True
-        text:
-            root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, \
-            root.theme_cls.device_orientation)
+    # MDLabel:
+    #     id: label_full_date
+    #     font_style: "H4"
+    #     text_color: root.specific_text_color
+    #     theme_text_color: "Custom"
+    #     size_hint: (None, None)
+    #     size:
+    #         (root.width, dp(30)) \
+    #         if root.theme_cls.device_orientation == "portrait" \
+    #         else (dp(168), dp(30))
+    #     pos:
+    #         (root.pos[0] + dp(23), root.pos[1] + root.height - dp(74)) \
+    #         if root.theme_cls.device_orientation == "portrait" \
+    #         else (root.pos[0] + dp(3), root.pos[1] + dp(214))
+    #     line_height: .84
+    #     valign: "middle"
+    #     text_size:
+    #         (root.width, None) \
+    #         if root.theme_cls.device_orientation == "portrait" \
+    #         else (dp(149), None)
+    #     bold: True
+    #     text:
+    #         root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, \
+    #         root.theme_cls.device_orientation)
 
-    MDLabel:
-        id: label_year
-        font_style: "Subtitle1"
-        text_color: root.specific_text_color
-        theme_text_color: "Custom"
-        size_hint: (None, None)
-        size: root.width, dp(30)
-        pos:
-            (root.pos[0] + dp(23), root.pos[1] + root.height - dp(40)) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (root.pos[0] + dp(16), root.pos[1] + root.height - dp(41))
-        valign: "middle"
-        text: str(root.sel_year)
+    # MDLabel:
+    #     id: label_year
+    #     font_style: "Subtitle1"
+    #     text_color: root.specific_text_color
+    #     theme_text_color: "Custom"
+    #     size_hint: (None, None)
+    #     size: root.width, dp(30)
+    #     pos:
+    #         (root.pos[0] + dp(23), root.pos[1] + root.height - dp(40)) \
+    #         if root.theme_cls.device_orientation == "portrait" \
+    #         else (root.pos[0] + dp(16), root.pos[1] + root.height - dp(41))
+    #     valign: "middle"
+    #     text: str(root.sel_year)
 
-    GridLayout:
+    MDGridLayout:
         id: cal_layout
         cols: 7
+        # adaptive_size: True
         size:
             (dp(44 * 7), dp(40 * 7)) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (dp(46 * 7), dp(32 * 7))
+            if root.theme_cls.device_orientation == "portrait" else (dp(46 * 7), dp(32 * 7))
         col_default_width:
-            dp(42) if root.theme_cls.device_orientation == "portrait" \
-            else dp(39)
+            dp(42) if root.theme_cls.device_orientation == "portrait" else dp(39)
         size_hint: (None, None)
         padding:
-            (dp(2), 0) if root.theme_cls.device_orientation == "portrait" \
-            else (dp(7), 0)
+            (dp(2), 0) if root.theme_cls.device_orientation == "portrait" else (dp(7), 0)
         spacing:
-            (dp(2), 0) if root.theme_cls.device_orientation == "portrait" \
-            else (dp(7), 0)
+            (dp(2), 0) if root.theme_cls.device_orientation == "portrait" else (dp(7), 0)
         pos:
-            (root.pos[0] + dp(10), root.pos[1] + dp(60)) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (root.pos[0] + dp(168) + dp(8), root.pos[1] + dp(48))
+            (root.pos[0] + dp(10), root.pos[1] + dp(160)) \
+            if root.theme_cls.device_orientation == "portrait" else (root.pos[0] + dp(168) + dp(8), root.pos[1] + dp(48))
 
     MDLabel:
         id: label_month_selector
@@ -275,9 +272,9 @@ Builder.load_string("""
         size: root.width, dp(30)
         pos: root.pos
         pos_hint:
-            {"center_x": .5, "center_y": .75} \
+            {"center_x": .5, "center_y": .95} \
             if self.theme_cls.device_orientation == "portrait" \
-            else {"center_x": .67, "center_y": .915}
+            else {"center_x": .5, "center_y": .915}
         valign: "middle"
         halign: "center"
 
@@ -285,26 +282,23 @@ Builder.load_string("""
         icon: "chevron-left"
         theme_text_color: "Secondary"
         pos_hint:
-            {"center_x": .08, "center_y": .745} \
-            if root.theme_cls.device_orientation == "portrait" \
-            else {"center_x": .39, "center_y": .925}
+            {"center_x": .08, "center_y": .95} \
+            if root.theme_cls.device_orientation == "portrait" else {"center_x": .39, "center_y": .95}
         on_release: root.change_month("prev")
 
     MDIconButton:
         icon: "chevron-right"
         theme_text_color: "Secondary"
         pos_hint:
-            {"center_x": .92, "center_y": .745} \
-            if root.theme_cls.device_orientation == "portrait" \
-            else {"center_x": .94, "center_y": .925}
+            {"center_x": .92, "center_y": .95} \
+            if root.theme_cls.device_orientation == "portrait" else {"center_x": .94, "center_y": .95}
         on_release: root.change_month("next")
 
 
 <DayButton>
     size_hint: None, None
     size:
-        (dp(40), dp(40)) if root.theme_cls.device_orientation == "portrait" \
-        else (dp(32), dp(32))
+        (dp(40), dp(40)) if root.theme_cls.device_orientation == "portrait" else (dp(32), dp(32))
 
     MDLabel:
         font_style: "Caption"
@@ -312,8 +306,7 @@ Builder.load_string("""
         text_color: root.theme_cls.primary_color
         opposite_colors:
             root.is_selected if root.owner.sel_month == root.owner.month \
-            and root.owner.sel_year == root.owner.year \
-            and str(self.text) == str(root.owner.sel_day) else False
+            and root.owner.sel_year == root.owner.year and str(self.text) == str(root.owner.sel_day) else False
         size_hint_x: None
         valign: "middle"
         halign: "center"
@@ -323,13 +316,11 @@ Builder.load_string("""
 <WeekdayLabel>
     font_style: "Caption"
     theme_text_color: "Secondary"
-    size: (dp(40), dp(40)) if root.theme_cls.device_orientation == "portrait" \
-        else (dp(32), dp(32))
+    size: (dp(40), dp(40)) if root.theme_cls.device_orientation == "portrait" else (dp(32), dp(32))
     size_hint: None, None
     text_size: self.size
     valign:
-        "middle" if root.theme_cls.device_orientation == "portrait" \
-        else "bottom"
+        "middle" if root.theme_cls.device_orientation == "portrait" else "bottom"
     halign: "center"
 
 
@@ -344,14 +335,10 @@ Builder.load_string("""
             rgba: self.theme_cls.primary_color if self.shown else [0, 0, 0, 0]
         Ellipse:
             size:
-                (dp(40), dp(40)) \
-                if root.theme_cls.device_orientation == "portrait" \
-                else (dp(32), dp(32))
+                (dp(40), dp(40)) if root.theme_cls.device_orientation == "portrait" else (dp(32), dp(32))
             pos:
-                self.pos if root.theme_cls.device_orientation == "portrait" \
-                else (self.pos[0], self.pos[1])
-"""
-)
+                self.pos if root.theme_cls.device_orientation == "portrait" else (self.pos[0], self.pos[1])
+""")
 
 
 class DaySelector(ThemableBehavior, AnchorLayout):
@@ -385,9 +372,7 @@ class DaySelector(ThemableBehavior, AnchorLayout):
             )
 
 
-class DayButton(
-    ThemableBehavior, CircularRippleBehavior, ButtonBehavior, AnchorLayout
-):
+class DayButton(ThemableBehavior, CircularRippleBehavior, ButtonBehavior, AnchorLayout):
     text = StringProperty()
     owner = ObjectProperty()
     is_today = BooleanProperty(False)
@@ -449,7 +434,6 @@ class MDDatePicker(
         self.update_cal_matrix(self.sel_year, self.sel_month)
         self.set_month_day(self.sel_day)
         self.selector.update()
-
 
     def fmt_lbl_date(self, year, month, day, orientation):
         d = datetime.date(int(year), int(month), int(day))
