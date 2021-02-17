@@ -1,164 +1,3 @@
-"""
-Components/Pickers
-==================
-
-Includes date, time and color picker
-
-`KivyMD` provides the following classes for use:
-
-- MDTimePicker_
-- MDDatePicker_
-- MDThemePicker_
-
-.. MDTimePicker:
-MDTimePicker
-------------
-
-.. rubric:: Usage
-
-.. code-block::
-
-    from kivy.lang import Builder
-
-    from kivymd.app import MDApp
-    from kivymd.uix.picker import MDTimePicker
-
-    KV = '''
-    FloatLayout:
-
-        MDRaisedButton:
-            text: "Open time picker"
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            on_release: app.show_time_picker()
-    '''
-
-
-    class Test(MDApp):
-        def build(self):
-            return Builder.load_string(KV)
-
-        def show_time_picker(self):
-            '''Open time picker dialog.'''
-
-            time_dialog = MDTimePicker()
-            time_dialog.open()
-
-
-    Test().run()
-
-.. image:: https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/kivymddoc/MDTimePicker.gif
-    :align: center
-
-Binding method returning set time
----------------------------------
-
-.. code-block:: python
-
-    def show_time_picker(self):
-        time_dialog = MDTimePicker()
-        time_dialog.bind(time=self.get_time)
-        time_dialog.open()
-
-    def get_time(self, instance, time):
-        '''
-        The method returns the set time.
-
-        :type instance: <kivymd.uix.picker.MDTimePicker object>
-        :type time: <class 'datetime.time'>
-        '''
-
-        return time
-
-Open time dialog with the specified time
-----------------------------------------
-
-Use the :attr:`~MDTimePicker.set_time` method of the
-:class:`~MDTimePicker.` class.
-
-.. code-block:: python
-
-    def show_time_picker(self):
-        from datetime import datetime
-
-        # Must be a datetime object
-        previous_time = datetime.strptime("03:20:00", '%H:%M:%S').time()
-        time_dialog = MDTimePicker()
-        time_dialog.set_time(previous_time)
-        time_dialog.open()
-
-.. image:: https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/kivymddoc/previous-time.png
-    :align: center
-
-.. MDDatePicker:
-MDDatePicker
-------------
-
-When creating an instance of the :class:`~MDDatePicker` class, you must pass
-as a parameter a method that will take one argument - a ``datetime`` object.
-
-.. code-block:: python
-
-    def get_date(self, date):
-        '''
-        :type date: <class 'datetime.date'>
-        '''
-
-    def show_date_picker(self):
-        date_dialog = MDDatePicker(callback=self.get_date)
-        date_dialog.open()
-
-.. image:: https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/kivymddoc/MDDatePicker.gif
-    :align: center
-
-Open date dialog with the specified date
-----------------------------------------
-
-.. code-block:: python
-
-    def show_date_picker(self):
-        date_dialog = MDDatePicker(
-            callback=self.get_date,
-            year=2010,
-            month=2,
-            day=12,
-        )
-        date_dialog.open()
-
-.. image:: https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/kivymddoc/previous-date.png
-    :align: center
-
-You can set the time interval from and to the set date. All days of the week
-that are not included in this range will have the status `disabled`.
-
-.. code-block:: python
-
-    def show_date_picker(self):
-        min_date = datetime.strptime("2020:02:15", '%Y:%m:%d').date()
-        max_date = datetime.strptime("2020:02:20", '%Y:%m:%d').date()
-        date_dialog = MDDatePicker(
-            callback=self.get_date,
-            min_date=min_date,
-            max_date=max_date,
-        )
-        date_dialog.open()
-
-.. image:: https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/kivymddoc/range-date.png
-    :align: center
-
-.. MDThemePicker:
-MDThemePicker
--------------
-
-.. code-block:: python
-
-    def show_theme_picker(self):
-        theme_dialog = MDThemePicker()
-        theme_dialog.open()
-
-.. image:: https://github.com/HeaTTheatR/KivyMD-data/raw/master/gallery/kivymddoc/MDThemePicker.gif
-    :align: center
-"""
-
 __all__ = ("MDDatePicker",)
 
 import calendar
@@ -200,37 +39,35 @@ Builder.load_string("""
     background: "{}/transparent.png".format(images_path)
     cal_layout: cal_layout
     size_hint: (None, None)
-    # adaptive_size: True
     size:
         (dp(328), dp(484)) \
         if self.theme_cls.device_orientation == "portrait" \
         else (dp(512), dp(304))
     pos_hint: {"center_x": .5, "center_y": .5}
     
-    # MDLabel:
-    #     id: label_full_date
-    #     font_style: "H4"
-    #     text_color: root.specific_text_color
-    #     theme_text_color: "Custom"
-    #     size_hint: (None, None)
-    #     size:
-    #         (root.width, dp(30)) \
-    #         if root.theme_cls.device_orientation == "portrait" \
-    #         else (dp(168), dp(30))
-    #     pos:
-    #         (root.pos[0] + dp(23), root.pos[1] + root.height - dp(74)) \
-    #         if root.theme_cls.device_orientation == "portrait" \
-    #         else (root.pos[0] + dp(3), root.pos[1] + dp(214))
-    #     line_height: .84
-    #     valign: "middle"
-    #     text_size:
-    #         (root.width, None) \
-    #         if root.theme_cls.device_orientation == "portrait" \
-    #         else (dp(149), None)
-    #     bold: True
-    #     text:
-    #         root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, \
-    #         root.theme_cls.device_orientation)
+    MDLabel:
+        id: label_full_date
+        font_style: "H4"
+        # text_color: root.specific_text_color
+        theme_text_color: "Custom"
+        size_hint: (None, None)
+        size:
+            (root.width, dp(30)) \
+            if root.theme_cls.device_orientation == "portrait" \
+            else (dp(168), dp(30))
+        pos:
+            (root.pos[0] + dp(23), root.pos[1] + root.height - dp(300)) \
+            if root.theme_cls.device_orientation == "portrait" \
+            else (root.pos[0] + dp(3), root.pos[1] + dp(214))
+        line_height: .84
+        valign: "middle"
+        text_size:
+            (root.width, None) \
+            if root.theme_cls.device_orientation == "portrait" \
+            else (dp(149), None)
+        bold: True
+        text:
+            root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, root.theme_cls.device_orientation)
 
     # MDLabel:
     #     id: label_year
@@ -380,7 +217,6 @@ class DayButton(ThemableBehavior, CircularRippleBehavior, ButtonBehavior, Anchor
 
     def on_release(self):
         self.owner.set_selected_widget(self)
-        print("Clicked")
 
 
 class WeekdayLabel(MDLabel):
@@ -411,6 +247,7 @@ class MDDatePicker(
 
     def __init__(
         self,
+        callback,
         year=None,
         month=None,
         day=None,
@@ -419,6 +256,7 @@ class MDDatePicker(
         max_date=None,
         **kwargs,
     ):
+        self.callback = callback
         self.cal = calendar.Calendar(firstweekday)
         self.sel_year = year if year else self.today.year
         self.sel_month = month if month else self.today.month
@@ -438,6 +276,7 @@ class MDDatePicker(
     def fmt_lbl_date(self, year, month, day, orientation):
         d = datetime.date(int(year), int(month), int(day))
         separator = "\n" if orientation == "landscape" else " "
+
         return (
             d.strftime("%a,").capitalize()
             + separator
@@ -483,6 +322,7 @@ class MDDatePicker(
         self.sel_day = int(widget.text)
         self._sel_day_widget = widget
         self.selector.set_widget(widget)
+        self.callback(date(self.sel_year, self.sel_month, self.sel_day))
 
     def set_month_day(self, day):
         for idx in range(len(self.cal_list)):
