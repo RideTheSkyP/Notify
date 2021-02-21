@@ -1,95 +1,20 @@
 <NotifyBackdropFrontLayer>:
-#	FitImage:
-#	    id: backgroundImage
-#	    size_hint_y: 1
-#		source: app.backgroundImage
+	name: "backdropFrontLayer"
 
 	MDBoxLayout:
-        id: backdropFrontLayerCenterBox
-        orientation: "vertical"
-        size_hint_y: None
-        spacing: "120dp"
-        pos_hint: {"center_x": .5, "center_y": .7}
-
-        MDLabel:
-            halign: "center"
-            font_style: "H4"
-            text: ""
-            theme_text_color: "Custom"
-            text_color: rgba("#FF7043")
-            pos_hint: {"center_x": .5, "center_y": .55}
-
-		MDLabel:
-            halign: "center"
-		    text: ""
-            theme_text_color: "Custom"
-            text_color: rgba("#64DD17")
-            pos_hint: {"center_x": .5, "center_y": .25}
-
-    MDBoxLayout:
-		id: secondaryBox
-        spacing: "96dp"
-        orientation: "vertical"
+		id: screen
+		orientation: "vertical"
 		size_hint_y: None
-        pos_hint: {"center_x": .5, "center_y": .25}
+		pos_hint: {"center_x": .5, "center_y": .5}
 
-		MDLabel:
-            id: textLabel
-            halign: "center"
-            text: ""
-			theme_text_color: "Custom"
-            text_color: rgba("#E91E63")
-            pos_hint: {'center_x': .5, 'center_y': 1}
-
-		MDFillRoundFlatButton:
-			text: "Open date picker"
-			theme_text_color: "Custom"
-            text_color: rgba("#6A1B9A")
-	        pos_hint: {'center_x': .5, 'center_y': .05}
-	        md_bg_color: rgba("#FFEB3B")
-			on_release: app.datePicker()
-
-#		MDDatePicker:
-#        MDBoxLayout:
-#            orientation: "vertical"
-#            adaptive_size: True
-#            spacing: "12dp"
-#            md_bg_color: app.theme_cls.bg_darkest
-#
-#            MDRaisedButton:
-#                text: "Open date picker"
-#                -width: box_time.width
-#                on_release: root.show_example_date_picker()
-#
-#            MDLabel:
-#                id: date_picker_label
-#                adaptive_height: True
-#                halign: "center"
-#                text: "01.01.20"
-#
-#            MDBoxLayout:
-#                adaptive_size: True
-#
-#                MDLabel:
-#                    text: "Start on previous date"
-#                    adaptive_size: True
-#                    pos_hint: {"center_y": .5}
-#
-#                MDCheckbox:
-#                    id: date_picker_use_previous_date
-#                    size_hint: None, None
-#                    size: "48dp", "48dp"
-
-
-#    key_viewclass: "viewclass"
-#    key_size: "height"
-#
-#    RecycleBoxLayout:
-#        default_size: None, dp(48)
-#        default_size_hint: 1, None
-#        size_hint_y: None
-#        height: self.minimum_height
-#        orientation: "vertical"
+	MDFloatingActionButtonSpeedDial:
+	    data: root.data
+	    root_button_anim: True
+	    hint_animation: True
+	    bg_hint_color: app.theme_cls.primary_light
+	    callback: root.getActionButton
+	    #elevation_normal: 0
+	    #elevation: 0
 
 
 <NotifyBackdropLayer>:
