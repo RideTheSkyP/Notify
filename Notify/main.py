@@ -24,7 +24,8 @@ from kivymd.uix.backdrop import MDBackdrop
 from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivymd.uix.picker import MDDatePicker, MDTimePicker
+# from kivymd.uix.picker import MDDatePicker, MDTimePicker
+from calend import MDDatePicker
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from kivymd.uix.banner import MDBanner
 from kivymd.uix.list import MDList
@@ -105,22 +106,7 @@ class NotifyApp(MDApp):
 
     def switch_theme_style(self, state):
         self.theme_cls.theme_style = "Dark" if state else "Light"
-        # self.theme_cls.text_color = "Gray" if state else "Light"
-
-    def getSelectedDate(self, date):
-        print(date)
-
-    def datePicker(self):
-        calendarWidget = MDDatePicker(callback=self.getSelectedDate)
-        calendarWidget.open()
-
-    def showTimePicker(self):
-        timeWidget = MDTimePicker()
-        timeWidget.bind(time=self.getSelectedTime)
-        timeWidget.open()
-
-    def getSelectedTime(self, instance, time):
-        print(time)
+        # self.theme_cls.text_color = "Grey" if state else "Light"
 
     def showDialog(self):
         if not self.dialog:

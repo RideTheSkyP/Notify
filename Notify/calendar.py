@@ -56,18 +56,14 @@ Builder.load_string("""
             if root.theme_cls.device_orientation == "portrait" \
             else (dp(168), dp(30))
         pos:
-            (root.pos[0] + dp(23), root.pos[1] + root.height - dp(300)) \
+            (root.pos[0] + dp(23), root.pos[1] + root.height - dp(240)) \
             if root.theme_cls.device_orientation == "portrait" \
             else (root.pos[0] + dp(3), root.pos[1] + dp(214))
         line_height: .84
         valign: "middle"
-        text_size:
-            (root.width, None) \
-            if root.theme_cls.device_orientation == "portrait" \
-            else (dp(149), None)
+        text_size: (root.width, None) if root.theme_cls.device_orientation == "portrait" else (dp(149), None)
         bold: True
-        text:
-            root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, root.theme_cls.device_orientation)
+        text: root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, root.theme_cls.device_orientation)
 
     # MDLabel:
     #     id: label_year
@@ -98,7 +94,7 @@ Builder.load_string("""
         spacing:
             (dp(2), 0) if root.theme_cls.device_orientation == "portrait" else (dp(7), 0)
         pos:
-            (root.pos[0] + dp(10), root.pos[1] + dp(160)) \
+            (root.pos[0] + dp(10), root.pos[1] + dp(200)) \
             if root.theme_cls.device_orientation == "portrait" else (root.pos[0] + dp(168) + dp(8), root.pos[1] + dp(48))
 
     MDLabel:
@@ -109,7 +105,7 @@ Builder.load_string("""
         size: root.width, dp(30)
         pos: root.pos
         pos_hint:
-            {"center_x": .5, "center_y": .95} \
+            {"center_x": .5, "center_y": 1} \
             if self.theme_cls.device_orientation == "portrait" \
             else {"center_x": .5, "center_y": .915}
         valign: "middle"
@@ -119,7 +115,7 @@ Builder.load_string("""
         icon: "chevron-left"
         theme_text_color: "Secondary"
         pos_hint:
-            {"center_x": .08, "center_y": .95} \
+            {"center_x": .08, "center_y": 1} \
             if root.theme_cls.device_orientation == "portrait" else {"center_x": .39, "center_y": .95}
         on_release: root.change_month("prev")
 
@@ -127,7 +123,7 @@ Builder.load_string("""
         icon: "chevron-right"
         theme_text_color: "Secondary"
         pos_hint:
-            {"center_x": .92, "center_y": .95} \
+            {"center_x": .92, "center_y": 1} \
             if root.theme_cls.device_orientation == "portrait" else {"center_x": .94, "center_y": .95}
         on_release: root.change_month("next")
 
@@ -204,9 +200,7 @@ class DaySelector(ThemableBehavior, AnchorLayout):
     def move_resize(self, window=None, width=None, height=None, do_again=True):
         self.pos = self.selected_widget.pos
         if do_again:
-            Clock.schedule_once(
-                lambda x: self.move_resize(do_again=False), 0.01
-            )
+            Clock.schedule_once(lambda x: self.move_resize(do_again=False), 0.01)
 
 
 class DayButton(ThemableBehavior, CircularRippleBehavior, ButtonBehavior, AnchorLayout):
@@ -223,12 +217,7 @@ class WeekdayLabel(MDLabel):
     pass
 
 
-class MDDatePicker(
-    FloatLayout,
-    ThemableBehavior,
-    RectangularElevationBehavior,
-    SpecificBackgroundColorBehavior,
-):
+class MDDatePicker(FloatLayout, ThemableBehavior, RectangularElevationBehavior, SpecificBackgroundColorBehavior):
     _sel_day_widget = ObjectProperty()
     cal_list = None
     cal_layout = ObjectProperty()
@@ -276,32 +265,18 @@ class MDDatePicker(
     def fmt_lbl_date(self, year, month, day, orientation):
         d = datetime.date(int(year), int(month), int(day))
         separator = "\n" if orientation == "landscape" else " "
-
-        return (
-            d.strftime("%a,").capitalize()
-            + separator
-            + d.strftime("%b").capitalize()
-            + " "
-            + str(day).lstrip("0")
-        )
+        return f"{d.strftime('%a,').capitalize()}{separator}{d.strftime('%b').capitalize()} {str(day).lstrip('0')}"
 
     def set_date(self, year, month, day):
         try:
             date(year, month, day)
         except Exception as e:
             if str(e) == "day is out of range for month":
-                raise self.SetDateError(
-                    " Day %s day is out of range for month %s" % (day, month)
-                )
+                raise self.SetDateError(f"Day {day} day is out of range for month {month}")
             elif str(e) == "month must be in 1..12":
-                raise self.SetDateError(
-                    "Month must be between 1 and 12, got %s" % month
-                )
+                raise self.SetDateError(f"Month must be between 1 and 12, got {month}")
             elif str(e) == "year is out of range":
-                raise self.SetDateError(
-                    "Year must be between %s and %s, got %s"
-                    % (datetime.MINYEAR, datetime.MAXYEAR, year)
-                )
+                raise self.SetDateError(f"Year must be between {datetime.MINYEAR} and {datetime.MAXYEAR}, got {year}")
         else:
             self.sel_year = year
             self.sel_month = month
@@ -350,36 +325,17 @@ class MDDatePicker(
                     self.cal_list[idx].text = ""
                 else:
                     if self.min_date and self.max_date:
-                        self.cal_list[idx].disabled = (
-                            True
-                            if (
-                                dates[idx] < self.min_date
-                                or dates[idx] > self.max_date
-                            )
-                            else False
-                        )
+                        self.cal_list[idx].disabled = (True if (dates[idx] < self.min_date or dates[idx] > self.max_date) else False)
                     elif self.min_date:
                         if isinstance(self.min_date, date):
-                            self.cal_list[idx].disabled = (
-                                True if dates[idx] < self.min_date else False
-                            )
+                            self.cal_list[idx].disabled = (True if dates[idx] < self.min_date else False)
                         else:
-                            raise ValueError(
-                                "min_date must be of type {} or None, got {}".format(
-                                    date, type(self.min_date)
-                                )
-                            )
+                            raise ValueError(f"min_date must be of type {date} or None, got {type(self.min_date)}")
                     elif self.max_date:
                         if isinstance(self.max_date, date):
-                            self.cal_list[idx].disabled = (
-                                True if dates[idx] > self.max_date else False
-                            )
+                            self.cal_list[idx].disabled = (True if dates[idx] > self.max_date else False)
                         else:
-                            raise ValueError(
-                                "max_date must be of type {} or None, got {}".format(
-                                    date, type(self.min_date)
-                                )
-                            )
+                            raise ValueError(f"max_date must be of type {date} or None, got {type(self.min_date)}")
                     else:
                         self.cal_list[idx].disabled = False
                     self.cal_list[idx].text = str(dates[idx].day)
@@ -389,9 +345,7 @@ class MDDatePicker(
     def generate_cal_widgets(self):
         cal_list = []
         for day in self.cal.iterweekdays():
-            self.cal_layout.add_widget(
-                WeekdayLabel(text=calendar.day_abbr[day][0].upper())
-            )
+            self.cal_layout.add_widget(WeekdayLabel(text=calendar.day_abbr[day][0].upper()))
         for i in range(6 * 7):  # 6 weeks, 7 days a week
             db = DayButton(owner=self)
             cal_list.append(db)
