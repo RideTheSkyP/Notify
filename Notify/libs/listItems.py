@@ -1,6 +1,9 @@
 from kivy.properties import ListProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
+
+from kivymd.theming import ThemableBehavior
+from kivymd.uix.behaviors import RectangularElevationBehavior
 from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, \
     TwoLineAvatarListItem
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch
@@ -56,3 +59,9 @@ class ItemDrawer(OneLineIconListItem):
 
 class NotifySwiperItem(MDSwiperItem):
     source = StringProperty()
+
+
+class NotifyFloatingLabel(ThemableBehavior, RectangularElevationBehavior, BoxLayout):
+    text = StringProperty()
+    text_color = ListProperty()
+    bg_color = ListProperty()

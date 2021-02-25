@@ -1,5 +1,6 @@
 from kivy.animation import Animation
 from kivymd.uix.backdrop import MDBackdrop
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.floatlayout import FloatLayout
 from kivymd.uix.screen import MDScreen
 from Not.calend import MDDatePicker
@@ -34,17 +35,37 @@ class NotifyBackdropFrontLayer(MDScreen):
 
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.calendar = None
         self.createCalendar()
 
     def createCalendar(self):
-        self.add_widget(MDDatePicker(callback=self.getSelectedDate))
+        self.calendar = MDDatePicker(callback=self.getSelectedDate)
+        self.add_widget(self.calendar)
 
     def getSelectedDate(self, date):
         print(date)
 
     def getActionButton(self, instance):
+        print(instance)
         print(instance.icon)
-        print(self.ids.screen.ids)
+        # print(self.ids.screen.ids)
+
+    def clicksHandler(self, instance):
+        print(instance)
+        # if isinstance(instance, MDFloatingActionButtonSpeedDial):
+        #     self.onActionSpeedDial(instance)
+        # elif isinstance(instance, MDBoxLayout):
+        #     pass
+
+    def onActionSpeedDial(self, instance):
+        print(self, instance, self.ids.screen.ids)
+        if instance.state == "open":
+            print("Deactivate widgets")
+            self.calendar.disabled = True
+        elif instance.state == "close":
+            print("Activate widgets")
+            self.calendar.disabled = False
+        print(instance.state)
 
 
 class NotifyBackdropBackLayerSettings(FloatLayout):
