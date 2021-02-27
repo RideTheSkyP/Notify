@@ -8,7 +8,7 @@ from kivy.loader import Loader
 from kivy.properties import ObjectProperty, StringProperty, ListProperty
 from kivy.clock import Clock
 from libs.dialog_change_theme import NotifyDialogChangeTheme
-from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer, NotifySwiperItem
+from libs.listItems import NotifyOneLineLeftIconItem, NotifyOneLineIconListItem, ItemDrawer
 from libs.dialogBox import DialogContent
 from kivymd import images_path
 from kivymd.app import MDApp
@@ -25,7 +25,7 @@ from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.backdrop import MDBackdropFrontLayer
 from kivy.uix.screenmanager import ScreenManager, Screen
 # from kivymd.uix.picker import MDDatePicker, MDTimePicker
-from calend import MDDatePicker
+# from calend import MDDatePicker
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch, MDIcon
 from kivymd.uix.banner import MDBanner
 from kivymd.uix.list import MDList

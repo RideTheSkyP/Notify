@@ -1,4 +1,4 @@
-__all__ = ("MDDatePicker",)
+
 
 import calendar
 import datetime
@@ -44,7 +44,7 @@ Builder.load_string("""
         if self.theme_cls.device_orientation == "portrait" \
         else (dp(512), dp(304))
     pos_hint: {"center_x": .5, "center_y": .5}
-    
+
     MDLabel:
         id: label_full_date
         font_style: "H4"
@@ -56,14 +56,15 @@ Builder.load_string("""
             if root.theme_cls.device_orientation == "portrait" \
             else (dp(168), dp(30))
         pos:
-            (root.pos[0] + dp(23), root.pos[1] + root.height - dp(240)) \
+            (root.pos[0] + dp(20), root.pos[1] + cal_layout.height - dp(60)) \
             if root.theme_cls.device_orientation == "portrait" \
             else (root.pos[0] + dp(3), root.pos[1] + dp(214))
         line_height: .84
         valign: "middle"
         text_size: (root.width, None) if root.theme_cls.device_orientation == "portrait" else (dp(149), None)
         bold: True
-        text: root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, root.theme_cls.device_orientation)
+        text: f"{root.pos[1] + cal_layout.height - dp(60)}"
+        # text: root.fmt_lbl_date(root.sel_year, root.sel_month, root.sel_day, root.theme_cls.device_orientation)
 
     # MDLabel:
     #     id: label_year
@@ -263,9 +264,12 @@ class MDDatePicker(FloatLayout, ThemableBehavior, RectangularElevationBehavior, 
         self.selector.update()
 
     def fmt_lbl_date(self, year, month, day, orientation):
-        d = datetime.date(int(year), int(month), int(day))
-        separator = "\n" if orientation == "landscape" else " "
-        return f"{d.strftime('%a,').capitalize()}{separator}{d.strftime('%b').capitalize()} {str(day).lstrip('0')}"
+        try:
+            d = datetime.date(int(year), int(month), int(day))
+            separator = "\n" if orientation == "landscape" else " "
+            return f"{d.strftime('%a,').capitalize()}{separator}{d.strftime('%b').capitalize()} {str(day).lstrip('0')}"
+        except:
+            return f""
 
     def set_date(self, year, month, day):
         try:
@@ -353,8 +357,10 @@ class MDDatePicker(FloatLayout, ThemableBehavior, RectangularElevationBehavior, 
         self.cal_list = cal_list
 
     def change_month(self, operation):
+        print(operation)
         op = 1 if operation == "next" else -1
         sl, sy = self.month, self.year
         m = 12 if sl + op == 0 else 1 if sl + op == 13 else sl + op
         y = sy - 1 if sl + op == 0 else sy + 1 if sl + op == 13 else sy
+        print(y, m)
         self.update_cal_matrix(y, m)

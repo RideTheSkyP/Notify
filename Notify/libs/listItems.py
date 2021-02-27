@@ -7,7 +7,6 @@ from kivymd.uix.behaviors import RectangularElevationBehavior
 from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, \
     TwoLineAvatarListItem
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch
-from kivymd.uix.swiper import MDSwiperItem
 
 
 class NotifyOneLineLeftAvatarItem(OneLineAvatarListItem):
@@ -55,10 +54,6 @@ class NotifyThemeStyleSwitch(MDSwitch):
 class ItemDrawer(OneLineIconListItem):
     icon = StringProperty()
     text_color = ListProperty((0, 0, 0, 1))
-
-
-class NotifySwiperItem(MDSwiperItem):
-    source = StringProperty()
 
 
 class NotifyFloatingLabel(ThemableBehavior, RectangularElevationBehavior, BoxLayout):

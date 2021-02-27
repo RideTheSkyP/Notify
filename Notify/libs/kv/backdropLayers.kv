@@ -6,7 +6,7 @@
 		orientation: "vertical"
 		size_hint_y: None
 		pos_hint: {"center_x": .5, "center_y": .5}
-		on_touch_up: root.clicksHandler(self)
+#		on_touch_up: root.clicksHandler(self)
 
 	MDFloatingActionButtonSpeedDial:
 		id: actionButtonSpeedDial
@@ -15,9 +15,9 @@
 	    hint_animation: True
 	    bg_hint_color: app.theme_cls.primary_light
 	    callback: root.getActionButton
-	    on_touch_up: root.onActionSpeedDial(self)
-#	    on_open: root.onActionSpeedDial(self)
-#	    on_close: root.onActionSpeedDial(self)
+#	    on_touch_down: root.onActionSpeedDial(self)
+	    on_open: root.onActionSpeedDial(self)
+	    on_close: root.onActionSpeedDial(self)
 
 
 <NotifyBackdropLayer>:
