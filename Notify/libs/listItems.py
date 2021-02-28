@@ -3,7 +3,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.behaviors import RectangularElevationBehavior
+from kivymd.uix.behaviors import RectangularElevationBehavior, FocusBehavior
+from kivymd.uix.button import MDFloatingActionButtonSpeedDial
 from kivymd.uix.list import ILeftBody, IRightBodyTouch, OneLineAvatarListItem, OneLineIconListItem, \
     TwoLineAvatarListItem
 from kivymd.uix.selectioncontrol import MDCheckbox, MDSwitch
@@ -60,3 +61,7 @@ class NotifyFloatingLabel(ThemableBehavior, RectangularElevationBehavior, BoxLay
     text = StringProperty()
     text_color = ListProperty()
     bg_color = ListProperty()
+
+
+class NotifyFloatingActionButtonSpeedDial(MDFloatingActionButtonSpeedDial, FocusBehavior):
+    pass

@@ -1,3 +1,6 @@
+#:import NotifyFloatingActionButtonSpeedDial libs.listItems.NotifyFloatingActionButtonSpeedDial
+
+
 <NotifyBackdropFrontLayer>:
 	name: "backdropFrontLayer"
 
@@ -6,7 +9,7 @@
 		orientation: "vertical"
 		size_hint_y: None
 		pos_hint: {"center_x": .5, "center_y": .5}
-#		on_touch_up: root.clicksHandler(self)
+		on_touch_up: root.clicksHandler(self)
 
 	MDFloatingActionButtonSpeedDial:
 		id: actionButtonSpeedDial

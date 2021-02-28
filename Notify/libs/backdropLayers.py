@@ -46,30 +46,26 @@ class NotifyBackdropFrontLayer(MDScreen):
         print(date)
 
     def getActionButton(self, instance):
-        print("Action button triggered")
         if instance.state == "normal":
             self.ids.actionButtonSpeedDial.close_stack()
             print(instance, instance.icon, instance.state, self.ids.actionButtonSpeedDial.state)
         elif instance.state == "down":
             print("Instance state down: ", instance, instance.state, instance.icon)
-        # print(self.ids.screen.ids)
 
-    # def clicksHandler(self, instance):
-    #     print(instance)
-        # if isinstance(instance, MDFloatingActionButtonSpeedDial):
-        #     self.onActionSpeedDial(instance)
-        # elif isinstance(instance, MDBoxLayout):
-        #     pass
+    def clicksHandler(self, instance):
+        print(instance)
+        if self.ids.actionButtonSpeedDial.state == "close":
+            print("Closed")
+        elif self.ids.actionButtonSpeedDial.state == "open":
+            self.ids.actionButtonSpeedDial.close_stack()
+            self.calendar.disabled = False
+            print("Opened")
 
     def onActionSpeedDial(self, instance):
-        print(instance, self.ids)
         if instance.state == "open":
-            print("Deactivate widgets")
             self.calendar.disabled = True
         elif instance.state == "close":
-            print("Activate widgets")
             self.calendar.disabled = False
-        print(instance.state)
 
 
 class NotifyBackdropBackLayerSettings(FloatLayout):
